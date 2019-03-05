@@ -1,0 +1,12 @@
+services:
+  abstract.repo:
+    class: Domain\Shared\Repository\AbstractRepository
+    abstract: true
+    arguments:
+      - '@doctrine.orm.default_entity_manager'
+    public: false
+
+  user.repo:
+    class: Domain\User\Repository\UserRepository
+    parent: abstract.repo
+    public: true
