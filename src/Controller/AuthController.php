@@ -4,12 +4,13 @@ namespace Controller;
 
 use Application\Exceptions\ModelNotFoundException;
 use Application\Exceptions\ValidationException;
+use Application\Forms\RegistrationFormType;
+use Domain\User\Entity\User;
 use Domain\User\Model\UserModel;
 use function password_verify;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -47,7 +48,6 @@ class AuthController extends BaseController
      * @param TokenStorageInterface $tokenStorage
      * @param Session $session
      * @param EventDispatcherInterface $eventDispatcher
-     * @param RequestStack $requestStack
      */
     public function __construct(UserModel $userModel, TokenStorageInterface $tokenStorage, Session $session, EventDispatcherInterface $eventDispatcher)
     {
@@ -66,14 +66,14 @@ class AuthController extends BaseController
     public function register(Request $request): Response
     {
         if (!$this->getUser()) {
-            if (empty($request->request->all())) {
-                return $this->render('auth/register.html.twig');
+            $form = $this->createForm(RegistrationFormType::class, User::create());
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->userModel
+                    ->setSex($form->get('sex')->getData())
+                    ->save();
             }
-            $this->userModel
-                ->setPassword($request->request->get('password'))
-                ->save();
-
-            return $this->redirect('/');
+            return $this->render('auth/register.html.twig', ['form' => $form->createView()]);
         }
         return $this->redirect('/');
     }

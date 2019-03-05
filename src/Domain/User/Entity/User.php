@@ -18,6 +18,12 @@ class User extends AbstractEntity implements UserInterface
     const SEX_MALE = 1;
     const SEX_FEMALE = 2;
 
+    const SEX_MAP = [
+        'Неизвестно' => self::SEX_UNKNOWN,
+        'Мужчина' => self::SEX_MALE,
+        'Женщина' => self::SEX_FEMALE
+    ];
+
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_USER = 'ROLE_USER';
 
