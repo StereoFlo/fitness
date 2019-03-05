@@ -18,6 +18,9 @@ class User extends AbstractEntity implements UserInterface
     const SEX_MALE = 1;
     const SEX_FEMALE = 2;
 
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER = 'ROLE_USER';
+
     /**
      * @var int
      */
@@ -63,6 +66,16 @@ class User extends AbstractEntity implements UserInterface
      * @var string|null
      */
     private $photo;
+
+    /**
+     * @var bool
+     */
+    private $isBlocked = false;
+
+    /**
+     * @var bool
+     */
+    private $isActivated = false;
 
     /**
      * @return array
@@ -262,5 +275,42 @@ class User extends AbstractEntity implements UserInterface
         $this->password = password_hash($password, PASSWORD_BCRYPT);
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function getIsBlocked(): bool
+    {
+        return $this->isBlocked;
+    }
+
+    /**
+     * @param bool $isBlocked
+     * @return User
+     */
+    public function setIsBlocked(bool $isBlocked): User
+    {
+        $this->isBlocked = $isBlocked;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsActivated(): bool
+    {
+        return $this->isActivated;
+    }
+
+    /**
+     * @param bool $isActivated
+     * @return User
+     */
+    public function setIsActivated(bool $isActivated): User
+    {
+        $this->isActivated = $isActivated;
+        return $this;
+    }
+
 
 }

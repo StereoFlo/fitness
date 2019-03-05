@@ -1,0 +1,11 @@
+services:
+  abstract.model:
+    class: Domain\Shared\Model\AbstractModel
+    public: true
+
+  user.model:
+    class: Domain\User\Model\UserModel
+    parent: abstract.model
+    arguments:
+      - '@user.repo'
+    public: true
