@@ -10,7 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class RegistrationFormType
@@ -21,21 +20,9 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, [
-                'constraints' => [
-                    new NotBlank('Email cannot be empty'),
-                ],
-            ])
-            ->add('phone', TextType::class, [
-                'constraints' => [
-                    new NotBlank('Email cannot be empty'),
-                ],
-            ])
-            ->add('name', TextType::class, [
-                'constraints' => [
-                    new NotBlank('Email cannot be empty'),
-                ],
-            ])
+            ->add('email', EmailType::class)
+            ->add('phone', TextType::class)
+            ->add('name', TextType::class)
             ->add('birthDate', DateType::class)
             ->add('sex', ChoiceType::class, [
                 'choices' => User::SEX_MAP,

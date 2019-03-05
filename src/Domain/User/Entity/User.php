@@ -149,7 +149,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -167,7 +167,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -203,7 +203,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @return DateTime
      */
-    public function getBirthDate(): DateTime
+    public function getBirthDate(): ?DateTime
     {
         return $this->birthDate;
     }
@@ -221,7 +221,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @return int
      */
-    public function getSex(): int
+    public function getSex(): ?int
     {
         return $this->sex;
     }
@@ -239,7 +239,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @return string
      */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }

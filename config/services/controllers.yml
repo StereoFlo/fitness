@@ -10,4 +10,6 @@ services:
     arguments:
       - '@user.model'
       - '@security.token_storage'
+      - '@session'
+      - '@event_dispatcher'
     public: true
