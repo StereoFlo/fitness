@@ -1,0 +1,13 @@
+services:
+  Controller\BaseController:
+    abstract: true
+    public: false
+    calls:
+      - [setRequest, ['@request_stack']]
+
+  Controller\AuthController:
+    parent: Controller\BaseController
+    arguments:
+      - '@user.model'
+      - '@security.token_storage'
+    public: true

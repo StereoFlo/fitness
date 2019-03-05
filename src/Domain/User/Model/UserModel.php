@@ -207,4 +207,17 @@ class UserModel extends AbstractModel
         }
         return $user;
     }
+
+    /**
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function getByEmail(): User
+    {
+        $user = $this->userRepo->getByEmail($this->email);
+        if (empty($user)) {
+            throw new ModelNotFoundException('User does not found by id');
+        }
+        return $user;
+    }
 }
