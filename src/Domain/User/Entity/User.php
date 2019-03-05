@@ -2,7 +2,10 @@
 
 namespace Domain\User\Entity;
 
+use DateTime;
 use Domain\Shared\Entity\AbstractEntity;
+use const PASSWORD_BCRYPT;
+use function password_hash;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -11,6 +14,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User extends AbstractEntity implements UserInterface
 {
+    const SEX_UNKNOWN = 0;
+    const SEX_MALE = 1;
+    const SEX_FEMALE = 2;
+
     /**
      * @var int
      */
@@ -22,9 +29,24 @@ class User extends AbstractEntity implements UserInterface
     private $name;
 
     /**
+     * @var DateTime
+     */
+    private $birthDate;
+
+    /**
+     * @var int
+     */
+    private $sex = self::SEX_UNKNOWN;
+
+    /**
      * @var string
      */
     private $email;
+
+    /**
+     * @var string
+     */
+    private $phone;
 
     /**
      * @var string
@@ -36,6 +58,11 @@ class User extends AbstractEntity implements UserInterface
      * @var string
      */
     private $password;
+
+    /**
+     * @var string|null
+     */
+    private $photo;
 
     /**
      * @return array
@@ -92,10 +119,12 @@ class User extends AbstractEntity implements UserInterface
 
     /**
      * @param int $id
+     * @return User
      */
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -108,10 +137,12 @@ class User extends AbstractEntity implements UserInterface
 
     /**
      * @param string $name
+     * @return User
      */
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -124,10 +155,12 @@ class User extends AbstractEntity implements UserInterface
 
     /**
      * @param string $email
+     * @return User
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -140,9 +173,94 @@ class User extends AbstractEntity implements UserInterface
 
     /**
      * @param string $role
+     * @return User
      */
-    public function setRole(string $role): void
+    public function setRole(string $role): self
     {
         $this->role = $role;
+        return $this;
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getBirthDate(): DateTime
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param DateTime $birthDate
+     * @return User
+     */
+    public function setBirthDate(DateTime $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSex(): int
+    {
+        return $this->sex;
+    }
+
+    /**
+     * @param int $sex
+     * @return User
+     */
+    public function setSex(int $sex): self
+    {
+        $this->sex = $sex;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return User
+     */
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string|null $photo
+     * @return User
+     */
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return User
+     */
+    public function setPassword(string $password): self
+    {
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        return $this;
+    }
+
 }

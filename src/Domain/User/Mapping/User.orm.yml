@@ -12,9 +12,17 @@ Domain\User\Entity\User:
     name:
       type: string
       length: 150
+    birthDate:
+      type: datetime
+    sex:
+      type: smallint
     email:
       type: string
       length: 150
+      unique: true
+    phone:
+      type: string
+      length: 15
       unique: true
     role:
       type: string
@@ -22,6 +30,10 @@ Domain\User\Entity\User:
     password:
       type: string
       length: 72
+    photo:
+      type: string
+      length: 40
+      nullable: true
     createdAt:
       type: datetime
     updatedAt:
