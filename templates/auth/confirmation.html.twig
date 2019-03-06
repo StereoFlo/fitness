@@ -1,0 +1,17 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <h1>Email confirmation</h1>
+    <div class="form-errors">
+        {{ form_errors(form) }}
+    </div>
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.password) }}
+        {{ form_widget(form.password, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
+    {{ form_end(form) }}
+{% endblock %}

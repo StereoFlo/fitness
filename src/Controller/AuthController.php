@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Application\Exceptions\ModelNotFoundException;
+use Application\Forms\ConfirmationFromType;
 use Application\Forms\LoginFormType;
 use Application\Forms\RegisterFormType;
 use Domain\User\Entity\User;
@@ -131,6 +132,28 @@ class AuthController extends BaseController
         $this->tokenStorage->setToken(null);
         $this->request->getSession()->invalidate();
         return RedirectResponse::create('/');
+    }
+
+    /**
+     * @param string $activateCode
+     *
+     * @return Response
+     * @throws ModelNotFoundException
+     */
+    public function confirmation(string $activateCode): Response
+    {
+        $user = $this->userModel->setActivateCode($activateCode)->getByActivateCode();
+        $form = $this->createForm(ConfirmationFromType::class)->handleRequest($this->request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userModel
+                ->setId($user->getId())
+                ->setPassword($form->get('password')->getData())
+                ->setActivateCode(null)
+                ->setIsActivated(true)
+                ->save();
+            return RedirectResponse::create('/');
+        }
+        return $this->render('auth/confirmation.html.twig', ['form' => $form->createView()]);
     }
 
 }

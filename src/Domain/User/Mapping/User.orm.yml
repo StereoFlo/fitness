@@ -35,6 +35,10 @@ Domain\User\Entity\User:
       type: string
       length: 40
       nullable: true
+    activateCode:
+      type: string
+      length: 32
+      nullable: true
     isBlocked:
       type: boolean
       options:

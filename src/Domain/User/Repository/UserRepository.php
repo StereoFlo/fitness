@@ -50,6 +50,16 @@ class UserRepository extends AbstractRepository
     }
 
     /**
+     * @param string $activateCode
+     *
+     * @return User|null|object
+     */
+    public function getByActivateCode(string $activateCode): ?User
+    {
+        return $this->getRepository()->findOneBy(['activateCode' => $activateCode]);
+    }
+
+    /**
      * @param int $limit
      * @param int $offset
      *

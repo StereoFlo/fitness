@@ -6,9 +6,15 @@ login:
     path: /login
     controller: Controller\AuthController::login
     methods: [GET, POST]
+
 logout:
     path: /logout
     controller: Controller\AuthController::logout
+    methods: [GET, POST]
+
+confirmation:
+    path: /confirmation/{activateCode}
+    controller: Controller\AuthController::confirmation
     methods: [GET, POST]
 
 register:

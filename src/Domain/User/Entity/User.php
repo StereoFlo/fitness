@@ -65,7 +65,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @var string
      */
-    private $role;
+    private $role = User::ROLE_USER;
 
     /**
      * just a hash
@@ -77,6 +77,11 @@ class User extends AbstractEntity implements UserInterface
      * @var string|null
      */
     private $photo;
+
+    /**
+     * @var string|null
+     */
+    private $activateCode;
 
     /**
      * @var bool
@@ -342,5 +347,24 @@ class User extends AbstractEntity implements UserInterface
     public static function getRoleName(string $roleId): ?string
     {
         return isset(self::ROLE_MAP[$roleId]) ? self::ROLE_MAP[$roleId] : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getActivateCode(): ?string
+    {
+        return $this->activateCode;
+    }
+
+    /**
+     * @param string|null $activateCode
+     *
+     * @return self
+     */
+    public function setActivateCode(?string $activateCode): self
+    {
+        $this->activateCode = $activateCode;
+        return $this;
     }
 }

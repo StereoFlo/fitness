@@ -8,6 +8,7 @@ use Domain\Shared\Model\AbstractModel;
 use Domain\User\Entity\User;
 use Domain\User\Repository\UserRepository;
 use Exception;
+use function md5;
 
 /**
  * Class UserModel
@@ -48,7 +49,7 @@ class UserModel extends AbstractModel
     /**
      * @var string
      */
-    private $role;
+    private $role = User::ROLE_USER;
 
     /**
      * just a hash
@@ -60,6 +61,21 @@ class UserModel extends AbstractModel
      * @var string|null
      */
     private $photo;
+
+    /**
+     * @var bool
+     */
+    private $isBlocked = false;
+
+    /**
+     * @var bool
+     */
+    private $isActivated = false;
+
+    /**
+     * @var string|null
+     */
+    private $activateCode;
 
     /**
      * @var UserRepository
@@ -166,6 +182,39 @@ class UserModel extends AbstractModel
     }
 
     /**
+     * @param string|null $activateCode
+     *
+     * @return UserModel
+     */
+    public function setActivateCode(?string $activateCode): UserModel
+    {
+        $this->activateCode = $activateCode;
+        return $this;
+    }
+
+    /**
+     * @param bool $isBlocked
+     *
+     * @return UserModel
+     */
+    public function setIsBlocked(bool $isBlocked): UserModel
+    {
+        $this->isBlocked = $isBlocked;
+        return $this;
+    }
+
+    /**
+     * @param bool $isActivated
+     *
+     * @return UserModel
+     */
+    public function setIsActivated(bool $isActivated): UserModel
+    {
+        $this->isActivated = $isActivated;
+        return $this;
+    }
+
+    /**
      * @return User
      * @throws ModelNotFoundException
      * @throws Exception
@@ -176,17 +225,41 @@ class UserModel extends AbstractModel
         if ($this->isNew) {
             $user->setCreatedAt()
                 ->setIsActivated(false)
-                ->setIsBlocked(false);
+                ->setIsBlocked(false)
+                ->setActivateCode(md5($this->email . time() . date('Y')));
         }
-        $user->setUpdatedAt()
-            ->setRole($this->role)
-            ->setPassword($this->password)
-            ->setEmail($this->email)
-            ->setBirthDate($this->birthDate)
-            ->setName($this->name)
-            ->setPhone($this->phone)
+        $user->setUpdatedAt();
+        if (isset($this->role)) {
+            $user->setRole($this->role);
+        }
+        if (isset($this->password)) {
+            $user->setPassword($this->password);
+        }
+        if (isset($this->email)) {
+            $user->setEmail($this->email);
+        }
+        if (isset($this->birthDate)) {
+            $user->setBirthDate($this->birthDate);
+        }
+        if (isset($this->name)) {
+            $user->setName($this->name);
+        }
+        if (isset($this->phone)) {
+            $user->setPhone($this->phone);
+        }
+        if (isset($this->sex)) {
+            $user->setSex($this->sex);
+        }
+        if (isset($this->activateCode)) {
+            $user->setActivateCode($this->activateCode);
+        }
+        if (isset($this->isBlocked)) {
+            $user->setIsBlocked($this->isBlocked);
+        }
+        if (isset($this->isActivated)) {
+            $user->setIsActivated($this->isActivated);
+        }
             //->setPhoto() todo
-            ->setSex($this->sex);
 
         return $this->userRepo->save($user);
     }
@@ -240,6 +313,24 @@ class UserModel extends AbstractModel
         }
         if (empty($user)) {
             throw new ModelNotFoundException('User does not found by phone');
+        }
+        return $user;
+    }
+
+    /**
+     * @param bool $doNotThrow
+     *
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function getByActivateCode(bool $doNotThrow = false): ?User
+    {
+        $user = $this->userRepo->getByActivateCode($this->activateCode);
+        if ($doNotThrow) {
+            return $user;
+        }
+        if (empty($user)) {
+            throw new ModelNotFoundException('User does not found by active code');
         }
         return $user;
     }
