@@ -290,7 +290,7 @@ class User extends AbstractEntity implements UserInterface
      */
     public function getIsBlocked(): bool
     {
-        return $this->isBlocked;
+        return $this->isBlocked ?? false;
     }
 
     /**
@@ -308,7 +308,7 @@ class User extends AbstractEntity implements UserInterface
      */
     public function getIsActivated(): bool
     {
-        return $this->isActivated;
+        return $this->isActivated ?? false;
     }
 
     /**
