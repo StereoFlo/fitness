@@ -243,4 +243,15 @@ class UserModel extends AbstractModel
         }
         return $user;
     }
+
+    /**
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return array
+     */
+    public function getList(int $limit, int $offset): array
+    {
+        return $this->userRepo->getUserList($limit, $offset);
+    }
 }

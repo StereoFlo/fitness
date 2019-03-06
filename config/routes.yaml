@@ -6,7 +6,13 @@ login:
     path: /login
     controller: Controller\AuthController::login
     methods: [GET, POST]
+
 register:
   path: /register
   controller: Controller\AuthController::register
   methods: [GET, POST]
+
+admin.user.list:
+  path: /admin/user
+  controller: Controller\Admin\UserController::getList
+  methods: [GET]

@@ -27,4 +27,22 @@ abstract class BaseController extends AbstractController
         $this->request = $request->getCurrentRequest();
         return $this;
     }
+
+    /**
+     * @param int $defaultLimit
+     *
+     * @return int
+     */
+    protected function getLimit(int $defaultLimit = 10): int
+    {
+        return $this->request->query->getInt('limit', $defaultLimit);
+    }
+
+    /**
+     * @return int
+     */
+    protected function getOffset(): int
+    {
+        return $this->request->query->getInt('offset', 0);
+    }
 }

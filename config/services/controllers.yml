@@ -13,3 +13,9 @@ services:
       - '@session'
       - '@event_dispatcher'
     public: true
+
+  Controller\Admin\UserController:
+    parent: Controller\BaseController
+    arguments:
+      - '@user.model'
+    public: true

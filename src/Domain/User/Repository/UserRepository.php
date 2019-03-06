@@ -50,6 +50,22 @@ class UserRepository extends AbstractRepository
     }
 
     /**
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return array
+     */
+    public function getUserList(int $limit, int $offset): array
+    {
+        $query = $this->getQueryBuilder()
+            ->select('user')
+            ->from($this->getEntityName(), 'user')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+        return $this->getPreparedList($query, true);
+    }
+
+    /**
      * gets an entity name
      *
      * @return string
