@@ -1,0 +1,12 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}TRain view{% endblock %}
+
+{% block body %}
+    <h1>Train view</h1>
+    <p>ID: {{ training.id }}</p>
+    <p>Name: {{ training.name }}</p>
+    <p>Trainer Name: {{ training.trainerName }}</p>
+    <p>Description: {{ training.description }}</p>
+    <p>User count: {{ training.users.count }}</p>
+{% endblock %}

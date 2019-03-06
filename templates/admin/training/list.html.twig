@@ -18,7 +18,10 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.trainerName }}</td>
                     <td>{{ item.description }}</td>
-                    <td><a href="{{ path('admin.training.form', {'id': item.id}) }}">Edit</a></td>
+                    <td>
+                        <a href="{{ path('admin.training.show', {'id': item.id}) }}">Show</a> |
+                        <a href="{{ path('admin.training.form', {'id': item.id}) }}">Edit</a>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
