@@ -6,6 +6,16 @@
     {% if user.total > 0 %}
         <p>Всего пользователей {{ user.total }}</p>
         <table class="table">
+            <tr>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Phone</td>
+                <td>Sex</td>
+                <td>Blocked</td>
+                <td>Activated</td>
+                <td>Date of birth</td>
+                <td>Actions</td>
+            </tr>
             {% for item in user.items %}
                 <tr>
                     <td>{{ item.name }}</td>
@@ -15,7 +25,6 @@
                     <td>{{ item.isBlocked ? "Да" : "Нет" }}</td>
                     <td>{{ item.isActivated ? "Да" : "Нет" }}</td>
                     <td>{{ item.createdAt.format('Y') }}</td>
-                    <td>{{ item.isActivated ? "Да" : "Нет" }}</td>
                     <td><a href="">Edit</a></td>
                 </tr>
             {% endfor %}
