@@ -8,6 +8,10 @@ Domain\User\Entity\User:
       options:
         unsigned: true
 
+  indexes:
+    activateCode:
+      columns: [ activate_code ]
+
   fields:
     name:
       type: string
