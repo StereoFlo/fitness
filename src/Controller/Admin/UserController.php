@@ -50,12 +50,12 @@ class UserController extends BaseController
         $user = $id ? $this->userModel->setId($id)->get() : User::create();
         $form = $this->createForm(UserEditFromType::class, $user)->handleRequest($this->request);
         if ($form->isSubmitted()) {
-            $user = $this->userModel->setEmail($form->get('email')->getData())->getByEmail(true);
-            if ($user) {
+            $userByEmail = $this->userModel->setEmail($form->get('email')->getData())->getByEmail(true);
+            if ($userByEmail && $userByEmail->getEmail() !== $user->getEmail()) {
                 $form->addError(new FormError('email is exits'));
             }
-            $user = $this->userModel->setPhone($form->get('phone')->getData())->getByPhone(true);
-            if ($user) {
+            $userByPhone = $this->userModel->setPhone($form->get('phone')->getData())->getByPhone(true);
+            if ($user && $userByPhone->getPhone() !== $user->getPhone()) {
                 $form->addError(new FormError('phone is exits'));
             }
         }
