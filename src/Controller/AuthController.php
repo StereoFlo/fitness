@@ -106,6 +106,9 @@ class AuthController extends BaseController
                 if (empty($user)) {
                     $form->addError(new FormError('user does not exits'));
                 }
+                if ($user->getIsBlocked()) {
+                    $form->addError(new FormError('account is blocked'));
+                }
                 if (!password_verify($form->get('password')->getData(), $user->getPassword())) {
                     $form->addError(new FormError('wrong password'));
                 }
