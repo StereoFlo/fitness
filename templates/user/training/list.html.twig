@@ -20,7 +20,7 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.trainerName }}</td>
                     <td>{{ item.description }}</td>
-                    <td>{{ item.users.contains(app.user) ? 'Вы подписаны' : 'Вы можете записаться' }}</td>
+                    <td>{{ item.hasUser(app.user.id) }}</td>
                     <td>
                         <a href="{{ path('user.training.show', {'id': item.id}) }}">Show</a>
                     </td>

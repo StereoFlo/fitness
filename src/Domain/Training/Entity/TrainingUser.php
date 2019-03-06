@@ -14,6 +14,11 @@ class TrainingUser extends AbstractEntity
     const TYPE_EMAIL = 0;
     const TYPE_SMS = 1;
 
+    const TYPE_MAP = [
+        self::TYPE_EMAIL => 'Email',
+        self::TYPE_SMS => 'SMS'
+    ];
+
     /**
      * @var int
      */
@@ -132,5 +137,10 @@ class TrainingUser extends AbstractEntity
     {
         $this->subscriptionType = $subscriptionType;
         return $this;
+    }
+
+    public static function getTypeName(int $type)
+    {
+        return isset(self::TYPE_MAP[$type]) ? self::TYPE_MAP[$type] : 'Unknown';
     }
 }

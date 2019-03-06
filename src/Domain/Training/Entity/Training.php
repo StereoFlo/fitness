@@ -127,9 +127,12 @@ class Training extends AbstractEntity
             return false;
         }
         $res = $this->trainings->filter(function ($train) use ($userId) {
-           return $train->getUser()->getId() === $userId;
+            return $train->getUser()->getId() === $userId;
         });
+        if (empty($res) || !isset($res[0])) {
+            return null;
+        }
 
-        return count($res);
+        return TrainingUser::getTypeName($res[0]->getSubscriptionType());
     }
 }

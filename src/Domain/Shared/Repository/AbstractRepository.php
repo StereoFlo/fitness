@@ -57,7 +57,7 @@ abstract class AbstractRepository
         $list = $this->getList($query, $fetchCollection);
         return [
             'total' => $list->count(),
-            'items' => $list,
+            'items' => $list->getQuery()->getResult(),
         ];
     }
 

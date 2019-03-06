@@ -2,6 +2,7 @@
 
 namespace Domain\User\Entity;
 
+use function count;
 use DateTime;
 use Doctrine\ORM\PersistentCollection;
 use Domain\Shared\Entity\AbstractEntity;
