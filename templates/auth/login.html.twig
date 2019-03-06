@@ -17,5 +17,6 @@
         {{ form_widget(form.password, {'attr' : {'class': 'form-control'}}) }}
     </div>
     {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
+    или <a href="{{ path('register') }}">Зарегистрируйтесь</a>
     {{ form_end(form) }}
 {% endblock %}

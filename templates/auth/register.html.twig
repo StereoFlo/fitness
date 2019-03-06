@@ -29,5 +29,6 @@
         {{ form_widget(form.sex, {'attr' : {'class': 'form-control'}}) }}
     </div>
     {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
+     или <a href="{{ path('login') }}">Войдите</a>
     {{ form_end(form) }}
 {% endblock %}
