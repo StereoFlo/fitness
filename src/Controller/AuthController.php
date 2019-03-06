@@ -74,6 +74,7 @@ class AuthController extends BaseController
                     ->setBirthDate($form->get('birthDate')->getData())
                     ->setPhone($form->get('phone')->getData())
                     ->save();
+                return $this->redirect('/');
             }
             return $this->render('auth/register.html.twig', ['form' => $form->createView()]);
         }
