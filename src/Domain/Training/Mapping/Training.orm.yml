@@ -22,16 +22,3 @@ Domain\Training\Entity\Training:
       type: datetime
     updatedAt:
       type: datetime
-
-  manyToMany:
-    users:
-      targetEntity: Domain\User\Entity\User
-      inversedBy: trainings
-      joinTable:
-        name: training_user
-        joinColumns:
-          training_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          user_id:
-            referencedColumnName: id

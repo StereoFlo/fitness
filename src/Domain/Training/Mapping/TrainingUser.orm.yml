@@ -1,0 +1,21 @@
+Domain\Training\Entity\TrainingUser:
+  type: entity
+  id:
+    userId:
+      type: integer
+      options:
+        unsigned: true
+    trainingId:
+      type: integer
+      options:
+        unsigned: true
+
+  fields:
+    subscriptionType:
+      type: integer
+      options:
+        unsigned: true
+    createdAt:
+      type: datetime
+
+

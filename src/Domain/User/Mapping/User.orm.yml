@@ -55,8 +55,3 @@ Domain\User\Entity\User:
       type: datetime
     updatedAt:
       type: datetime
-
-  manyToMany:
-    trainings:
-      targetEntity: Domain\Training\Entity\Training
-      mappedBy: users
