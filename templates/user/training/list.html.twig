@@ -9,7 +9,9 @@
             <tr>
                 <td>ID</td>
                 <td>Name</td>
+                <td>Trainer</td>
                 <td>Description</td>
+                <td>State</td>
                 <td>Actions</td>
             </tr>
             {% for item in list.items %}
@@ -18,6 +20,7 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.trainerName }}</td>
                     <td>{{ item.description }}</td>
+                    <td>{{ item.users.contains(app.user) ? 'Вы подписаны' : 'Вы можете записаться' }}</td>
                     <td>
                         <a href="{{ path('user.training.show', {'id': item.id}) }}">Show</a>
                     </td>
