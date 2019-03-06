@@ -68,6 +68,11 @@ class AuthController extends BaseController
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->userModel
                     ->setSex($form->get('sex')->getData())
+                    ->setName($form->get('name')->getData())
+                    ->setEmail($form->get('email')->getData())
+                    ->setRole(User::ROLE_USER)
+                    ->setBirthDate($form->get('birthDate')->getData())
+                    ->setPhone($form->get('phone')->getData())
                     ->save();
             }
             return $this->render('auth/register.html.twig', ['form' => $form->createView()]);
@@ -96,7 +101,7 @@ class AuthController extends BaseController
                 $event = new InteractiveLoginEvent($this->request, $token);
                 $this->eventDispatcher->dispatch('security.interactive_login', $event);
             }
-            return $this->render('auth/register.html.twig', ['form' => $form->createView()]);
+            return $this->render('auth/login.html.twig', ['form' => $form->createView()]);
         }
 
         return $this->redirect('/');

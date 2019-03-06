@@ -7,7 +7,7 @@ use DateTime;
 use Domain\Shared\Model\AbstractModel;
 use Domain\User\Entity\User;
 use Domain\User\Repository\UserRepository;
-use function strtotime;
+use Exception;
 
 /**
  * Class UserModel
@@ -96,12 +96,12 @@ class UserModel extends AbstractModel
     }
 
     /**
-     * @param string $birthDate
+     * @param DateTime $birthDate
      * @return UserModel
      */
-    public function setBirthDate(string $birthDate): UserModel
+    public function setBirthDate(DateTime $birthDate): UserModel
     {
-        $this->birthDate = DateTime::createFromFormat( 'Y-m-d H:i:s', strtotime($birthDate));
+        $this->birthDate = $birthDate;
         return $this;
     }
 
@@ -168,7 +168,7 @@ class UserModel extends AbstractModel
     /**
      * @return User
      * @throws ModelNotFoundException
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(): User
     {

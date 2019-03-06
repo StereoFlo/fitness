@@ -30,6 +30,7 @@ Domain\User\Entity\User:
     password:
       type: string
       length: 72
+      nullable: true
     photo:
       type: string
       length: 40

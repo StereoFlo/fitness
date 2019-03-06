@@ -64,7 +64,7 @@ class User extends AbstractEntity implements UserInterface
 
     /**
      * just a hash
-     * @var string
+     * @var string|null
      */
     private $password;
 
@@ -276,8 +276,11 @@ class User extends AbstractEntity implements UserInterface
      * @param string $password
      * @return User
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
+        if (empty($password)) {
+            return $this;
+        }
         $this->password = password_hash($password, PASSWORD_BCRYPT);
         return $this;
     }
