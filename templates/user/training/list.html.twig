@@ -4,7 +4,7 @@
 
 {% block body %}
     {% if list.total > 0 %}
-        <p>Всего тренировок {{ list.total }} | <a href="{{ path('admin.training.form') }}">Создать</a> </p>
+        <p>Всего тренировок {{ list.total }}</p>
         <table class="table">
             <tr>
                 <td>ID</td>
@@ -19,13 +19,12 @@
                     <td>{{ item.trainerName }}</td>
                     <td>{{ item.description }}</td>
                     <td>
-                        <a href="{{ path('admin.training.show', {'id': item.id}) }}">Show</a> |
-                        <a href="{{ path('admin.training.form', {'id': item.id}) }}">Edit</a>
+                        <a href="{{ path('user.training.show', {'id': item.id}) }}">Show</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
     {% else %}
-        <p>Тренировок нет. <a href="{{ path('admin.training.form') }}">Создать новую</a></p>
+        <p>Тренировок нет</p>
     {% endif %}
 {% endblock %}

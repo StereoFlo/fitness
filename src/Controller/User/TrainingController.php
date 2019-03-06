@@ -39,4 +39,13 @@ class TrainingController extends BaseController
         $training = $this->trainingModel->setId($id)->get();
         return $this->render('user/training/show.html.twig', ['training' => $training]);
     }
+
+    /**
+     * @return Response
+     */
+    public function getList(): Response
+    {
+        $list = $this->trainingModel->getList($this->getLimit(), $this->getOffset());
+        return $this->render('user/training/list.html.twig', ['list' => $list]);
+    }
 }
