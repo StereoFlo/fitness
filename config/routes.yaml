@@ -20,3 +20,10 @@ admin.user.list:
   path: /admin/user
   controller: Controller\Admin\UserController::getList
   methods: [GET]
+
+admin.user.edit:
+  path: /admin/user/{id}
+  controller: Controller\Admin\UserController::edit
+  methods: [GET]
+  requirements:
+    id: '\d+'

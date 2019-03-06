@@ -27,6 +27,11 @@ class User extends AbstractEntity implements UserInterface
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_USER = 'ROLE_USER';
 
+    const ROLE_MAP = [
+        'admin' => self::ROLE_ADMIN,
+        'user'  => self::ROLE_USER,
+    ];
+
     /**
      * @var int
      */
@@ -329,4 +334,13 @@ class User extends AbstractEntity implements UserInterface
         return $this->role === self::ROLE_ADMIN;
     }
 
+    /**
+     * @param string $roleId
+     *
+     * @return string|null
+     */
+    public static function getRoleName(string $roleId): ?string
+    {
+        return isset(self::ROLE_MAP[$roleId]) ? self::ROLE_MAP[$roleId] : null;
+    }
 }
