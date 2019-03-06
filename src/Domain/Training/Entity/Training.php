@@ -120,4 +120,16 @@ class Training extends AbstractEntity
     {
         return $this->trainings;
     }
+
+    public function hasUser(int $userId)
+    {
+        if (empty($this->trainings)) {
+            return false;
+        }
+        $res = $this->trainings->filter(function ($train) use ($userId) {
+           return $train->getUser()->getId() === $userId;
+        });
+
+        return count($res);
+    }
 }
