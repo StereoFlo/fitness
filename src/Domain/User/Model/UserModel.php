@@ -174,7 +174,9 @@ class UserModel extends AbstractModel
     {
         $user = $this->get();
         if ($this->isNew) {
-            $user->setCreatedAt();
+            $user->setCreatedAt()
+                ->setIsActivated(false)
+                ->setIsBlocked(false);
         }
         $user->setUpdatedAt()
             ->setRole($this->role)
@@ -184,9 +186,7 @@ class UserModel extends AbstractModel
             ->setName($this->name)
             ->setPhone($this->phone)
             //->setPhoto() todo
-            ->setSex($this->sex)
-            ->setIsActivated(true)
-            ->setIsBlocked(false);
+            ->setSex($this->sex);
 
         return $this->userRepo->save($user);
     }
