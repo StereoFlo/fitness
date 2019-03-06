@@ -3,7 +3,6 @@
 namespace Controller;
 
 use Application\Exceptions\ModelNotFoundException;
-use Application\Exceptions\ValidationException;
 use Application\Forms\LoginFormType;
 use Application\Forms\RegisterFormType;
 use Domain\User\Entity\User;
@@ -95,23 +94,28 @@ class AuthController extends BaseController
     /**
      * @return Response
      * @throws ModelNotFoundException
-     * @throws ValidationException
      */
     public function login(): Response
     {
         if (!$this->getUser()) {
             $form = $this->createForm(LoginFormType::class, User::create())->handleRequest($this->request);
-            if ($form->isSubmitted() && $form->isValid()) {
+            $user = null;
+            if ($form->isSubmitted()) {
                 $user = $this->userModel->setEmail($form->get('email')->getData())->getByEmail();
-                if (!password_verify($form->get('password')->getData(), $user->getPassword())) {
-                    throw new ValidationException('passwords not match');
+                if (empty($user)) {
+                    $form->addError(new FormError('user does not exits'));
                 }
-
+                if (!password_verify($form->get('password')->getData(), $user->getPassword())) {
+                    $form->addError(new FormError('wrong password'));
+                }
+            }
+            if ($form->isSubmitted() && $form->isValid()) {
                 $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
                 $this->tokenStorage->setToken($token);
                 $this->session->set('_security_main', serialize($token));
                 $event = new InteractiveLoginEvent($this->request, $token);
                 $this->eventDispatcher->dispatch('security.interactive_login', $event);
+                return $this->redirect('/');
             }
             return $this->render('auth/login.html.twig', ['form' => $form->createView()]);
         }

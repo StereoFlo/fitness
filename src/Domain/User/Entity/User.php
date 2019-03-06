@@ -92,9 +92,9 @@ class User extends AbstractEntity implements UserInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
