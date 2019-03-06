@@ -4,13 +4,13 @@ namespace Controller;
 
 use Application\Exceptions\ModelNotFoundException;
 use Application\Exceptions\ValidationException;
-use Application\Forms\RegistrationFormType;
+use Application\Forms\LoginFormType;
+use Application\Forms\RegisterFormType;
 use Domain\User\Entity\User;
 use Domain\User\Model\UserModel;
 use function password_verify;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -58,16 +58,13 @@ class AuthController extends BaseController
     }
 
     /**
-     * @param Request $request
-     *
      * @return RedirectResponse|Response
      * @throws ModelNotFoundException
      */
-    public function register(Request $request): Response
+    public function register(): Response
     {
         if (!$this->getUser()) {
-            $form = $this->createForm(RegistrationFormType::class, User::create());
-            $form->handleRequest($request);
+            $form = $this->createForm(RegisterFormType::class, User::create())->handleRequest($this->request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->userModel
                     ->setSex($form->get('sex')->getData())
@@ -85,20 +82,22 @@ class AuthController extends BaseController
      */
     public function login(): Response
     {
-        if (!$this->getUser() && $this->request->request->count() > 0) {
-            return $this->render('auth/login.html.twig');
-        }
+        if (!$this->getUser()) {
+            $form = $this->createForm(LoginFormType::class, User::create())->handleRequest($this->request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user = $this->userModel->setEmail($form->get('email')->getData())->getByEmail();
+                if (!password_verify($form->get('password')->getData(), $user->getPassword())) {
+                    throw new ValidationException('passwords not match');
+                }
 
-        $user = $this->userModel->setEmail($this->request->get('email'))->getByEmail();
-        if (!password_verify($this->request->get('password'), $user->getPassword())) {
-            throw new ValidationException('passwords not match');
+                $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+                $this->tokenStorage->setToken($token);
+                $this->session->set('_security_main', serialize($token));
+                $event = new InteractiveLoginEvent($this->request, $token);
+                $this->eventDispatcher->dispatch('security.interactive_login', $event);
+            }
+            return $this->render('auth/register.html.twig', ['form' => $form->createView()]);
         }
-
-        $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-        $this->tokenStorage->setToken($token);
-        $this->session->set('_security_main', serialize($token));
-        $event = new InteractiveLoginEvent($this->request, $token);
-        $this->eventDispatcher->dispatch('security.interactive_login', $event);
 
         return $this->redirect('/');
     }

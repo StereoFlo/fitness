@@ -6,12 +6,11 @@
     <h1>Register</h1>
 
     {{ form_start(form) }}
-    {{ form_row(form.email) }}
+    {{ form_row(form.email, {'attr': {'data-row-class': 'my-row-class'} }) }}
     {{ form_row(form.name) }}
     {{ form_row(form.phone) }}
     {{ form_row(form.birthDate) }}
     {{ form_row(form.sex) }}
-
-    <button class="btn">Register</button>
+    {{ form_row(form.submit) }}
     {{ form_end(form) }}
 {% endblock %}
