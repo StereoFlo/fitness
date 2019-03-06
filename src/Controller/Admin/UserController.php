@@ -40,36 +40,36 @@ class UserController extends BaseController
     }
 
     /**
-     * @param int $id
+     * @param int|null $id
      *
      * @return Response
      * @throws ModelNotFoundException
      */
-    public function edit(int $id): Response
+    public function form(?int $id): Response
     {
-        $user = $this->userModel->setId($id)->get();
+        $user = $id ? $this->userModel->setId($id)->get() : User::create();
         $form = $this->createForm(UserEditFromType::class, $user)->handleRequest($this->request);
         if ($form->isSubmitted()) {
-            $user = $this->userModel->setEmail($form->get('email')->getData())->getByEmail();
+            $user = $this->userModel->setEmail($form->get('email')->getData())->getByEmail(true);
             if ($user) {
                 $form->addError(new FormError('email is exits'));
             }
-            $user = $this->userModel->setPhone($form->get('phone')->getData())->getByPhone();
+            $user = $this->userModel->setPhone($form->get('phone')->getData())->getByPhone(true);
             if ($user) {
                 $form->addError(new FormError('phone is exits'));
             }
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->userModel
-                    ->setPhone($form->get('phone')->getData())
-                    ->setEmail($form->get('email')->getData())
-                    ->setBirthDate($form->get('birthDate')->getData())
-                    ->setRole(User::getRoleName($form->get('phone')->getData()))
-                    ->setName($form->get('name')->getData())
-                    ->setPassword($form->get('password')->getData())
-                    ->setSex($form->get('sex')->getData())
-                    ->save();
-                return $this->redirectToRoute('admin.user.list');
-            }
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userModel
+                ->setPhone($form->get('phone')->getData())
+                ->setEmail($form->get('email')->getData())
+                ->setBirthDate($form->get('birthDate')->getData())
+                ->setRole($form->get('role')->getData())
+                ->setName($form->get('name')->getData())
+                ->setPassword($form->get('password')->getData())
+                ->setSex($form->get('sex')->getData())
+                ->save();
+            return $this->redirectToRoute('admin.user.list');
         }
         return $this->render('admin/user/edit.html.twig', ['form' => $form->createView()]);
     }

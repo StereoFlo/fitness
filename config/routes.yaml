@@ -22,8 +22,8 @@ admin.user.list:
   methods: [GET]
 
 admin.user.edit:
-  path: /admin/user/{id}
-  controller: Controller\Admin\UserController::edit
-  methods: [GET]
+  path: /admin/user/form/{id?}
+  controller: Controller\Admin\UserController::form
+  methods: [GET, POST]
   requirements:
     id: '\d+'
