@@ -1,1 +1,8 @@
 services:
+  app.session:
+    class: Application\Handlers\Session
+    arguments:
+      - '%database_host%'
+      - '%database_name%'
+      - '%database_user%'
+      - '%database_password%'

@@ -33,3 +33,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain/Training/Mapping'
                 prefix: 'Domain\Training\Entity'
                 alias: Training
+            Session:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/src/Domain/Session/Mapping'
+                prefix: 'Domain\Session\Entity'
+                alias: Session

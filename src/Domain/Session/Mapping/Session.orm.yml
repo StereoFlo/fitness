@@ -1,0 +1,17 @@
+Domain\Session\Entity\Session:
+  type: entity
+  table: sessions
+  id:
+    sessId:
+      type: string
+      length: 128
+
+  fields:
+    sessData:
+      type: blob
+    sessTime:
+      type: integer
+      options:
+        unsigned: true
+    sessLifetime:
+      type: bigint
