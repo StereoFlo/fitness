@@ -33,9 +33,9 @@ class Training extends AbstractEntity
     private $description;
 
     /**
-     * @var PersistentCollection|null|User[]
+     * @var PersistentCollection|null|TrainingUser[]
      */
-    private $users;
+    private $trainings;
 
     /**
      * @return int
@@ -116,8 +116,8 @@ class Training extends AbstractEntity
     /**
      * @return PersistentCollection|User[]|null
      */
-    public function getUsers()
+    public function getTrainings()
     {
-        return $this->users;
+        return $this->trainings;
     }
 }

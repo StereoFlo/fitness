@@ -19,3 +19,16 @@ Domain\Training\Entity\TrainingUser:
       type: datetime
 
 
+  manyToOne:
+    user:
+      targetEntity: Domain\User\Entity\User
+      inversedBy: trainings
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+    training:
+      targetEntity: Domain\Training\Entity\Training
+      inversedBy: trainings
+      joinColumn:
+        name: training_id
+        referencedColumnName: id

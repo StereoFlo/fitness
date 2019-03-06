@@ -55,3 +55,8 @@ Domain\User\Entity\User:
       type: datetime
     updatedAt:
       type: datetime
+
+  oneToMany:
+    trainings:
+      targetEntity: Domain\Training\Entity\TrainingUser
+      mappedBy: user

@@ -22,3 +22,8 @@ Domain\Training\Entity\Training:
       type: datetime
     updatedAt:
       type: datetime
+
+  oneToMany:
+    trainings:
+      targetEntity: Domain\Training\Entity\TrainingUser
+      mappedBy: training

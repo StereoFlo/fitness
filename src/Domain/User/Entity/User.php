@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\ORM\PersistentCollection;
 use Domain\Shared\Entity\AbstractEntity;
 use Domain\Training\Entity\Training;
+use Domain\Training\Entity\TrainingUser;
 use const PASSWORD_BCRYPT;
 use function password_hash;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -96,7 +97,7 @@ class User extends AbstractEntity implements UserInterface
     private $isActivated = false;
 
     /**
-     * @var PersistentCollection|null|Training[]
+     * @var PersistentCollection|null|TrainingUser[]
      */
     private $trainings;
 
