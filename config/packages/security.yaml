@@ -12,8 +12,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
             provider: user
+            anonymous: true
 
             # activate different ways to authenticate
 
@@ -27,5 +27,7 @@ security:
         ROLE_ADMIN: ROLE_USER
 
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/user, roles: ROLE_USER }
+         - { path: ^/admin, methods: [GET, POST],  roles: ROLE_ADMIN }
+         - { path: ^/user, methods: [GET, POST], roles: ROLE_USER }
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
