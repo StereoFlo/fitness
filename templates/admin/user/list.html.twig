@@ -8,7 +8,15 @@
         <table class="table">
             {% for item in user.items %}
                 <tr>
+                    <td>{{ item.name }}</td>
                     <td>{{ item.email }}</td>
+                    <td>{{ item.phone }}</td>
+                    <td>{{ item.sex }}</td>
+                    <td>{{ item.isBlocked ? "Да" : "Нет" }}</td>
+                    <td>{{ item.isActivated ? "Да" : "Нет" }}</td>
+                    <td>{{ item.createdAt.format('Y') }}</td>
+                    <td>{{ item.isActivated ? "Да" : "Нет" }}</td>
+                    <td><a href="">Edit</a></td>
                 </tr>
             {% endfor %}
         </table>

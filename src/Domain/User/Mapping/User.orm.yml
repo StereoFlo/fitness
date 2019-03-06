@@ -35,6 +35,14 @@ Domain\User\Entity\User:
       type: string
       length: 40
       nullable: true
+    isBlocked:
+      type: boolean
+      options:
+        default: true
+    isActivated:
+      type: boolean
+      options:
+        default: true
     createdAt:
       type: datetime
     updatedAt:
