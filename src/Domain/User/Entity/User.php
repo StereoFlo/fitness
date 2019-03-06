@@ -321,5 +321,12 @@ class User extends AbstractEntity implements UserInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
 
 }

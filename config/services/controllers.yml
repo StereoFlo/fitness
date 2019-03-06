@@ -5,6 +5,10 @@ services:
     calls:
       - [setRequest, ['@request_stack']]
 
+  Controller\DefaultController:
+    public: true
+    parent: Controller\BaseController
+
   Controller\AuthController:
     parent: Controller\BaseController
     arguments:
