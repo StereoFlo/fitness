@@ -52,3 +52,15 @@ admin.training.show:
   methods: [GET, POST]
   requirements:
     id: '\d+'
+
+user.profile:
+  path: /user/profile
+  controller: Controller\User\ProfileController::form
+  methods: [GET, POST]
+
+user.training.list:
+  path: /user/training/{id}
+  controller: Controller\Admin\TrainingController::show
+  methods: [GET]
+  requirements:
+    id: '\d+'
