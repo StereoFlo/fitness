@@ -27,9 +27,28 @@ admin.user.list:
   controller: Controller\Admin\UserController::getList
   methods: [GET]
 
-admin.user.edit:
+admin.user.form:
   path: /admin/user/form/{id?}
   controller: Controller\Admin\UserController::form
+  methods: [GET, POST]
+  requirements:
+    id: '\d+'
+
+admin.training.list:
+  path: /admin/training
+  controller: Controller\Admin\TrainingController::getList
+  methods: [GET]
+
+admin.training.form:
+  path: /admin/training/form/{id?}
+  controller: Controller\Admin\TrainingController::form
+  methods: [GET, POST]
+  requirements:
+    id: '\d+'
+
+admin.training.show:
+  path: /admin/training/{id}
+  controller: Controller\Admin\TrainingController::show
   methods: [GET, POST]
   requirements:
     id: '\d+'

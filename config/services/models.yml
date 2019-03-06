@@ -9,3 +9,10 @@ services:
     arguments:
       - '@user.repo'
     public: true
+
+  training.model:
+    class: Domain\Training\Model\TrainingModel
+    parent: abstract.model
+    arguments:
+      - '@training.repo'
+    public: true

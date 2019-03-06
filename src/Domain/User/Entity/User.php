@@ -3,7 +3,9 @@
 namespace Domain\User\Entity;
 
 use DateTime;
+use Doctrine\ORM\PersistentCollection;
 use Domain\Shared\Entity\AbstractEntity;
+use Domain\Training\Entity\Training;
 use const PASSWORD_BCRYPT;
 use function password_hash;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -92,6 +94,11 @@ class User extends AbstractEntity implements UserInterface
      * @var bool
      */
     private $isActivated = false;
+
+    /**
+     * @var PersistentCollection|null|Training[]
+     */
+    private $trainings;
 
     /**
      * @return array
@@ -366,5 +373,13 @@ class User extends AbstractEntity implements UserInterface
     {
         $this->activateCode = $activateCode;
         return $this;
+    }
+
+    /**
+     * @return PersistentCollection|Training[]|null
+     */
+    public function getTrainings()
+    {
+        return $this->trainings;
     }
 }

@@ -1,0 +1,37 @@
+Domain\Training\Entity\Training:
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+      options:
+        unsigned: true
+
+  fields:
+    name:
+      type: string
+      length: 150
+    trainerName:
+      type: string
+      length: 150
+    description:
+      type: text
+      nullable: true
+    createdAt:
+      type: datetime
+    updatedAt:
+      type: datetime
+
+  manyToMany:
+    users:
+      targetEntity: Domain\User\Entity\User
+      inversedBy: trainings
+      joinTable:
+        name: training_user
+        joinColumns:
+          training_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          user_id:
+            referencedColumnName: id

@@ -23,3 +23,9 @@ services:
     arguments:
       - '@user.model'
     public: true
+
+  Controller\Admin\TrainingController:
+    parent: Controller\BaseController
+    arguments:
+      - '@training.model'
+    public: true

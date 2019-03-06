@@ -27,3 +27,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Domain/User/Mapping'
                 prefix: 'Domain\User\Entity'
                 alias: User
+            Training:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/src/Domain/Training/Mapping'
+                prefix: 'Domain\Training\Entity'
+                alias: Training

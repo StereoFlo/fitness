@@ -1,0 +1,25 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}TRain edit{% endblock %}
+
+{% block body %}
+    <h1>Train edit</h1>
+    <div class="form-errors">
+        {{ form_errors(form) }}
+    </div>
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.trainerName) }}
+        {{ form_widget(form.trainerName, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
+    {{ form_end(form) }}
+{% endblock %}
