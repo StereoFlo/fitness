@@ -10,6 +10,7 @@ use Domain\User\Entity\User;
 use Domain\User\Model\UserModel;
 use function password_verify;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -65,6 +66,16 @@ class AuthController extends BaseController
     {
         if (!$this->getUser()) {
             $form = $this->createForm(RegisterFormType::class, User::create())->handleRequest($this->request);
+            if ($form->isSubmitted()) {
+                $email = $this->userModel->setEmail($form->get('email')->getData())->getByEmail(true);
+                if ($email) {
+                    $form->addError(new FormError('email is taken'));
+                }
+                $phone = $this->userModel->setPhone($form->get('phone')->getData())->getByPhone(true);
+                if ($phone) {
+                    $form->addError(new FormError('phone is taken'));
+                }
+            }
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->userModel
                     ->setSex($form->get('sex')->getData())

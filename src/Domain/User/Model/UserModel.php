@@ -209,14 +209,37 @@ class UserModel extends AbstractModel
     }
 
     /**
+     * @param bool $doNotThrow
+     *
      * @return User
      * @throws ModelNotFoundException
      */
-    public function getByEmail(): User
+    public function getByEmail(bool $doNotThrow = false): ?User
     {
         $user = $this->userRepo->getByEmail($this->email);
+        if ($doNotThrow) {
+            return $user;
+        }
         if (empty($user)) {
-            throw new ModelNotFoundException('User does not found by id');
+            throw new ModelNotFoundException('User does not found by email');
+        }
+        return $user;
+    }
+
+    /**
+     * @param bool $doNotThrow
+     *
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function getByPhone(bool $doNotThrow = false): ?User
+    {
+        $user = $this->userRepo->getByPhone($this->phone);
+        if ($doNotThrow) {
+            return $user;
+        }
+        if (empty($user)) {
+            throw new ModelNotFoundException('User does not found by phone');
         }
         return $user;
     }

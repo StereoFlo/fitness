@@ -40,6 +40,16 @@ class UserRepository extends AbstractRepository
     }
 
     /**
+     * @param string $phone
+     *
+     * @return User|null|object
+     */
+    public function getByPhone(string $phone): ?User
+    {
+        return $this->getRepository()->findOneBy(['phone' => $phone]);
+    }
+
+    /**
      * gets an entity name
      *
      * @return string

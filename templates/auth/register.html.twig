@@ -4,13 +4,30 @@
 
 {% block body %}
     <h1>Register</h1>
-
+    <div class="form-errors">
+        {{ form_errors(form) }}
+    </div>
     {{ form_start(form) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.phone) }}
-    {{ form_row(form.birthDate) }}
-    {{ form_row(form.sex) }}
-    {{ form_row(form.submit) }}
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.phone) }}
+        {{ form_widget(form.phone, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.birthDate) }}
+        {{ form_widget(form.birthDate, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.sex) }}
+        {{ form_widget(form.sex, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
     {{ form_end(form) }}
 {% endblock %}
