@@ -32,6 +32,8 @@ class TrainingUserRepository extends AbstractRepository
         return true;
     }
 
+
+
     /**
      * @param int $trainingId
      *

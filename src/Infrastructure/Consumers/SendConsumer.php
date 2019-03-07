@@ -2,6 +2,7 @@
 
 namespace Infrastructure\Consumers;
 
+use Domain\Training\Entity\TrainingUser;
 use Infrastructure\Senders\EmailSender;
 use Infrastructure\Senders\SmsSender;
 use function json_decode;
@@ -46,18 +47,27 @@ class SendConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         $response = json_decode($msg->getBody(), true);
-        if ($response['type'] === 'register') {
-            $this->emailSender
-                ->setCode($response['code'])
-                ->setTo($response['to'])
-                ->setSubject('Register')
-                ->send();
-        }
-        if ($response['type'] === 'sms' || $response['type'] === 'email') {
-            $this->smsSender
-                ->setTo($response['to'])
-                ->setMessage($response['message'])
-                ->send();
+        switch ($response['type']) {
+            case 'register':
+                $this->emailSender
+                    ->setCode($response['code'])
+                    ->setTo($response['to'])
+                    ->setSubject('Register')
+                    ->send();
+                break;
+            case TrainingUser::TYPE_EMAIL:
+                $this->emailSender
+                    ->setTo($response['to'])
+                    ->setMessage($response['message'])
+                    ->send();
+                break;
+            case TrainingUser::TYPE_SMS:
+                $this->smsSender
+                    ->setTo($response['to'])
+                    ->setMessage($response['message'])
+                    ->send();
+                break;
+
         }
         return;
     }

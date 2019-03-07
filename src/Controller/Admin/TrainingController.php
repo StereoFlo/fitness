@@ -3,10 +3,14 @@
 namespace Controller\Admin;
 
 use Application\Exceptions\ModelNotFoundException;
+use Application\Forms\SendEmailFormType;
+use Application\Forms\SendSmsFormType;
 use Application\Forms\TrainingFormType;
 use Controller\BaseController;
 use Domain\Training\Entity\Training;
+use Domain\Training\Entity\TrainingUser;
 use Domain\Training\Model\TrainingModel;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -19,15 +23,21 @@ class TrainingController extends BaseController
      * @var TrainingModel
      */
     private $trainingModel;
+    /**
+     * @var Producer
+     */
+    private $producer;
 
     /**
      * TrainingController constructor.
      *
      * @param TrainingModel $trainingModel
+     * @param Producer      $producer
      */
-    public function __construct(TrainingModel $trainingModel)
+    public function __construct(TrainingModel $trainingModel, Producer $producer)
     {
         $this->trainingModel = $trainingModel;
+        $this->producer = $producer;
     }
 
     /**
@@ -48,7 +58,19 @@ class TrainingController extends BaseController
     public function show(int $id): Response
     {
         $training = $this->trainingModel->setId($id)->get();
-        return $this->render('admin/training/show.html.twig', ['training' => $training]);
+        $emailForm = $this->createForm(SendEmailFormType::class)->handleRequest($this->request);
+        $smsForm = $this->createForm(SendSmsFormType::class)->handleRequest($this->request);
+        if ($emailForm->isSubmitted() && $emailForm->isValid()) {
+            $this->producer
+                ->setContentType('application/json')
+                ->publish(json_encode(['to' => $training->getId(), 'message' =>$emailForm->get('message')->getData(), 'type' => TrainingUser::TYPE_EMAIL]));
+        }
+        if ($smsForm->isSubmitted() && $smsForm->isValid()) {
+            $this->producer
+                ->setContentType('application/json')
+                ->publish(json_encode(['to' => $training->getId(), 'message' =>$emailForm->get('message')->getData(), 'type' => TrainingUser::TYPE_SMS]));
+        }
+        return $this->render('admin/training/show.html.twig', ['training' => $training, 'emailForm' => $emailForm->createView(), 'smsForm' => $smsForm->createView()]);
     }
 
     /**

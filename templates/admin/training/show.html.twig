@@ -18,10 +18,30 @@
     {% endif %}
     <div class="row">
         <div class="col">
-            Email
+            <p>Send email to customers</p>
+            <div class="form-errors">
+                {{ form_errors(emailForm) }}
+            </div>
+            {{ form_start(emailForm) }}
+            <div class="form-group">
+                {{ form_label(emailForm.message) }}
+                {{ form_widget(emailForm.message, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+            {{ form_widget(emailForm.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
+            {{ form_end(emailForm) }}
         </div>
         <div class="col">
-            SMS
+            <p>Send sms to customers</p>
+            <div class="form-errors">
+                {{ form_errors(smsForm) }}
+            </div>
+            {{ form_start(smsForm) }}
+            <div class="form-group">
+                {{ form_label(smsForm.message) }}
+                {{ form_widget(smsForm.message, {'attr' : {'class': 'form-control'}}) }}
+            </div>
+            {{ form_widget(smsForm.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
+            {{ form_end(smsForm) }}
         </div>
     </div>
 {% endblock %}
