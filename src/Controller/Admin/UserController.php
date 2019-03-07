@@ -8,6 +8,8 @@ use Controller\BaseController;
 use Domain\User\Entity\User;
 use Domain\User\Model\UserModel;
 use function json_encode;
+use function md5;
+use function mt_rand;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,6 +78,7 @@ class UserController extends BaseController
                 ->setName($form->get('name')->getData())
                 ->setPassword($form->get('password')->getData())
                 ->setSex($form->get('sex')->getData())
+                ->setActivateCode(md5(mt_rand(0, 9999)))
                 ->save();
             $this->producer->setContentType('application/json')
                 ->publish(json_encode(['to' => $user->getEmail(), 'code' => $user->getActivateCode(), 'type' => 'register']));
