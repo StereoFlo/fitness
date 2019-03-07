@@ -53,14 +53,7 @@ class SendConsumer implements ConsumerInterface
                 ->setSubject('Register')
                 ->send();
         }
-        if ($response['type'] === 'email') {
-            $this->emailSender
-                ->setCode($response['code'])
-                ->setTo($response['to'])
-                ->setSubject('Register')
-                ->send();
-        }
-        if ($response['type'] === 'sms') {
+        if ($response['type'] === 'sms' || $response['type'] === 'email') {
             $this->smsSender
                 ->setTo($response['to'])
                 ->setMessage($response['message'])
