@@ -1,0 +1,4 @@
+services:
+  user.fixture:
+    class: Fixtures\UserFixtures
+    tags: [ doctrine.fixture.orm ]
