@@ -1,4 +1,4 @@
-#### Настройки БД БД
+#### Настройки БД
 
 ```bash
 vi config/parameters.yml
