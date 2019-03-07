@@ -2,7 +2,6 @@
 
 namespace Domain\User\Entity;
 
-use function count;
 use DateTime;
 use Doctrine\ORM\PersistentCollection;
 use Domain\Shared\Entity\AbstractEntity;
@@ -69,7 +68,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @var string
      */
-    private $role = User::ROLE_USER;
+    private $role;
 
     /**
      * just a hash
@@ -213,7 +212,7 @@ class User extends AbstractEntity implements UserInterface
      * @param string $role
      * @return User
      */
-    public function setRole(string $role): self
+    public function setRole(string $role = self::ROLE_USER): self
     {
         $this->role = $role;
         return $this;
