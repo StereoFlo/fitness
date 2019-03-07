@@ -7,6 +7,8 @@ use Application\Forms\UserEditFromType;
 use Controller\BaseController;
 use Domain\User\Entity\User;
 use Domain\User\Model\UserModel;
+use function json_encode;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,13 +24,20 @@ class UserController extends BaseController
     private $userModel;
 
     /**
+     * @var Producer
+     */
+    private $producer;
+
+    /**
      * UserController constructor.
      *
      * @param UserModel $userModel
+     * @param Producer  $producer
      */
-    public function __construct(UserModel $userModel)
+    public function __construct(UserModel $userModel, Producer $producer)
     {
         $this->userModel = $userModel;
+        $this->producer = $producer;
     }
 
     /**
@@ -51,16 +60,16 @@ class UserController extends BaseController
         $form = $this->createForm(UserEditFromType::class, $user)->handleRequest($this->request);
         if ($form->isSubmitted()) {
             $userByEmail = $this->userModel->setEmail($form->get('email')->getData())->getByEmail(true);
-            if ($userByEmail && $userByEmail->getEmail() !== $user->getEmail()) {
+            if ($userByEmail && $userByEmail) {
                 $form->addError(new FormError('email is exits'));
             }
             $userByPhone = $this->userModel->setPhone($form->get('phone')->getData())->getByPhone(true);
-            if ($user && $userByPhone->getPhone() !== $user->getPhone()) {
+            if ($user && $userByPhone) {
                 $form->addError(new FormError('phone is exits'));
             }
         }
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userModel
+            $user = $this->userModel
                 ->setPhone($form->get('phone')->getData())
                 ->setBirthDate($form->get('birthDate')->getData())
                 ->setRole($form->get('role')->getData())
@@ -68,6 +77,8 @@ class UserController extends BaseController
                 ->setPassword($form->get('password')->getData())
                 ->setSex($form->get('sex')->getData())
                 ->save();
+            $this->producer->setContentType('application/json')
+                ->publish(json_encode(['to' => $user->getEmail(), 'code' => $user->getActivateCode()]));
             return $this->redirectToRoute('admin.user.list');
         }
         return $this->render('admin/user/edit.html.twig', ['form' => $form->createView()]);

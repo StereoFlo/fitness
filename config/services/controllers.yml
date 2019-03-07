@@ -22,6 +22,7 @@ services:
     parent: Controller\BaseController
     arguments:
       - '@user.model'
+      - '@old_sound_rabbit_mq.register_producer'
     public: true
 
   Controller\Admin\TrainingController:

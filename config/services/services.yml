@@ -6,3 +6,10 @@ services:
       - '%database_name%'
       - '%database_user%'
       - '%database_password%'
+
+  register.consumer:
+    class: Infrastructure\Consumers\RegisterConsumer
+    arguments:
+      - '@swiftmailer.mailer.default'
+      - '@twig'
+    public: true

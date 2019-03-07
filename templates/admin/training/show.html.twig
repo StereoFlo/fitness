@@ -10,10 +10,18 @@
     <p>Description: {{ training.description }}</p>
     <p>User count: {{ training.trainings.count }}</p>
     {% if training.trainings.count %}
-    {% for user_trn in training.trainings %}
-    <ul>
-        <li><a href="{{ path('admin.user.form', {'id': user_trn.user.id}) }}">{{ user_trn.user.name }}</a></li>
-    </ul>
-    {% endfor %}
+        {% for user_trn in training.trainings %}
+            <ul>
+                <li><a href="{{ path('admin.user.form', {'id': user_trn.user.id}) }}">{{ user_trn.user.name }}</a></li>
+            </ul>
+        {% endfor %}
     {% endif %}
+    <div class="row">
+        <div class="col">
+            Email
+        </div>
+        <div class="col">
+            SMS
+        </div>
+    </div>
 {% endblock %}
