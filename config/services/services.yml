@@ -7,9 +7,20 @@ services:
       - '%database_user%'
       - '%database_password%'
 
-  register.consumer:
-    class: Infrastructure\Consumers\RegisterConsumer
+  send.consumer:
+    class: Infrastructure\Consumers\SendConsumer
+    arguments:
+      - '@email.sender'
+    public: true
+
+  abstract.sender:
+    class: Infrastructure\Senders\AbstractSender
+    public: true
+    abstract: true
+  email.sender:
+    class: Infrastructure\Senders\EmailSender
     arguments:
       - '@swiftmailer.mailer.default'
       - '@twig'
     public: true
+    parent: abstract.sender

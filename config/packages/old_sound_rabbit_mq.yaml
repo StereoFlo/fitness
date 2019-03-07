@@ -4,17 +4,17 @@ old_sound_rabbit_mq:
             url: '%env(RABBITMQ_URL)%'
     producers:
         # use 'old_sound_rabbit_mq.task_producer' service to send data.
-        register:
+        send:
             connection: default
             exchange_options:
-              name: 'register'
+              name: 'send'
               type: direct
     consumers:
-        register:
+        send:
             connection: default
             exchange_options:
-              name: 'register'
+              name: 'send'
               type: direct
             queue_options:
-              name: 'register'
-            callback: register.consumer
+              name: 'send'
+            callback: send.consumer

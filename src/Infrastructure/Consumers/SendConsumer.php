@@ -2,39 +2,30 @@
 
 namespace Infrastructure\Consumers;
 
+use Infrastructure\Senders\EmailSender;
 use function json_decode;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Swift_Mailer;
-use Swift_Message;
-use Twig_Environment;
 
 /**
  * Class RegisterConsumer
  * @package Infrastructure\Consumers
  */
-class RegisterConsumer implements ConsumerInterface
+class SendConsumer implements ConsumerInterface
 {
     /**
-     * @var Swift_Mailer
+     * @var EmailSender
      */
-    private $mailer;
-
-    /**
-     * @var Twig_Environment
-     */
-    private $twig;
+    private $emailSender;
 
     /**
      * RegisterConsumer constructor.
      *
-     * @param Swift_Mailer      $mailer
-     * @param Twig_Environment $twig
+     * @param EmailSender $emailSender
      */
-    public function __construct(Swift_Mailer $mailer, Twig_Environment $twig)
+    public function __construct(EmailSender $emailSender)
     {
-        $this->mailer = $mailer;
-        $this->twig = $twig;
+        $this->emailSender = $emailSender;
     }
 
     /**
@@ -49,16 +40,11 @@ class RegisterConsumer implements ConsumerInterface
     {
         $response = json_decode($msg->getBody(), true);
         if ($response['type'] === 'register') {
-            $message = (new Swift_Message('Register'))
+            $this->emailSender
+                ->setCode($response['code'])
                 ->setTo($response['to'])
-                ->setBody(
-                    $this->twig->render(
-                        'email/register.html.twig',
-                        ['code' => $response['code']]
-                    ),
-                    'text/html'
-                );
-            $this->mailer->send($message);
+                ->setSubject('Register')
+                ->send();
         }
         return;
     }
