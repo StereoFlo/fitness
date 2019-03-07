@@ -10,6 +10,7 @@ php bin/console doctrine:schema:update --force
 php bin/console doctrine:fixtures:load -q
 ```
 admin: admin@admin.ru : 123
+
 user:  user@user.ru : 123
 
 #### Запуск сервера
