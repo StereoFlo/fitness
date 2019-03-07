@@ -62,7 +62,6 @@ class UserController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userModel
                 ->setPhone($form->get('phone')->getData())
-                ->setEmail($form->get('email')->getData())
                 ->setBirthDate($form->get('birthDate')->getData())
                 ->setRole($form->get('role')->getData())
                 ->setName($form->get('name')->getData())

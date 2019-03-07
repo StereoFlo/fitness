@@ -32,7 +32,7 @@ class UserEditFromType extends AbstractType
             ->add('sex', ChoiceType::class, [
                 'choices' => User::SEX_MAP,
             ])
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, ['disabled' => true])
             ->add('phone', TextType::class)
             ->add('role', ChoiceType::class, ['choices' => User::ROLE_MAP])
             ->add('isBlocked', CheckboxType::class, ['required' => false])
