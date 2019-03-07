@@ -102,14 +102,14 @@ class AuthController extends BaseController
             $form = $this->createForm(LoginFormType::class, User::create())->handleRequest($this->request);
             $user = null;
             if ($form->isSubmitted()) {
-                $user = $this->userModel->setEmail($form->get('email')->getData())->getByEmail();
+                $user = $this->userModel->setEmail($form->get('email')->getData())->getByEmail(true);
                 if (empty($user)) {
                     $form->addError(new FormError('user does not exits'));
                 }
-                if ($user->getIsBlocked()) {
+                if ($user && $user->getIsBlocked()) {
                     $form->addError(new FormError('account is blocked'));
                 }
-                if (!password_verify($form->get('password')->getData(), $user->getPassword())) {
+                if ($user && !password_verify($form->get('password')->getData(), $user->getPassword())) {
                     $form->addError(new FormError('wrong password'));
                 }
             }

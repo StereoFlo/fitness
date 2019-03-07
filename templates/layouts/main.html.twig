@@ -48,6 +48,14 @@
                 </div>
             </li>
             {% endif %}
+            {% if app.user is null %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('register') }}">Register</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
