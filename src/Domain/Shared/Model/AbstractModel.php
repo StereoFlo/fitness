@@ -14,4 +14,11 @@ abstract class AbstractModel
      */
     protected $isNew = false;
 
+    /**
+     * @return bool
+     */
+    public function isNew(): bool
+    {
+        return $this->isNew;
+    }
 }
