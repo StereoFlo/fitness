@@ -122,7 +122,12 @@ class Training extends AbstractEntity
         return $this->trainings;
     }
 
-    public function hasUser(int $userId)
+    /**
+     * @param int $userId
+     *
+     * @return string|null
+     */
+    public function hasUser(int $userId): ?string
     {
         if (empty($this->trainings)) {
             return false;
