@@ -30,6 +30,8 @@ class ProfileController extends BaseController
     }
 
     /**
+     * Форма профиля
+     *
      * @return Response
      * @throws ModelNotFoundException
      */

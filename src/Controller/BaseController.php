@@ -29,6 +29,8 @@ abstract class BaseController extends AbstractController
     }
 
     /**
+     * Лимит их реквеста
+     *
      * @param int $defaultLimit
      *
      * @return int
@@ -39,6 +41,8 @@ abstract class BaseController extends AbstractController
     }
 
     /**
+     * офсет из реквеста
+     *
      * @return int
      */
     protected function getOffset(): int

@@ -42,6 +42,8 @@ class TrainingController extends BaseController
     }
 
     /**
+     * Тренировка по айди
+     *
      * @param int $id
      *
      * @return Response
@@ -68,6 +70,8 @@ class TrainingController extends BaseController
     }
 
     /**
+     * Список тренировок
+     *
      * @return Response
      */
     public function getList(): Response
@@ -77,6 +81,8 @@ class TrainingController extends BaseController
     }
 
     /**
+     * Отписаться от тренировки
+     *
      * @param int $id
      *
      * @return Response

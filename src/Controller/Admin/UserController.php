@@ -51,6 +51,7 @@ class UserController extends BaseController
     }
 
     /**
+     * @todo move guanocode to model
      * @param int|null $id
      *
      * @return Response

@@ -8,6 +8,8 @@ use Application\Forms\LoginFormType;
 use Application\Forms\RegisterFormType;
 use Domain\User\Entity\User;
 use Domain\User\Model\UserModel;
+use function md5;
+use function mt_rand;
 use function password_verify;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
@@ -17,6 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use function time;
 
 /**
  * Class AuthController
@@ -59,6 +62,8 @@ class AuthController extends BaseController
     }
 
     /**
+     * Регистрация в системе
+     *
      * @return RedirectResponse|Response
      * @throws ModelNotFoundException
      */
@@ -84,6 +89,7 @@ class AuthController extends BaseController
                     ->setRole(User::ROLE_USER)
                     ->setBirthDate($form->get('birthDate')->getData())
                     ->setPhone($form->get('phone')->getData())
+                    ->setActivateCode(md5(time() . mt_rand(0, 999)))
                     ->save();
                 return $this->redirect('/');
             }
@@ -93,6 +99,8 @@ class AuthController extends BaseController
     }
 
     /**
+     * Вход в систему
+     *
      * @return Response
      * @throws ModelNotFoundException
      */
@@ -128,16 +136,20 @@ class AuthController extends BaseController
     }
 
     /**
+     * Выход
+     *
      * @return RedirectResponse
      */
     public function logout(): RedirectResponse
     {
         $this->tokenStorage->setToken(null);
         $this->request->getSession()->invalidate();
-        return RedirectResponse::create('/');
+        return $this->redirect('/');
     }
 
     /**
+     * Подтверждение регистрации
+     *
      * @param string $activateCode
      *
      * @return Response
