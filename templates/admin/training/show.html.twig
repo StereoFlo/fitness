@@ -9,4 +9,11 @@
     <p>Trainer Name: {{ training.trainerName }}</p>
     <p>Description: {{ training.description }}</p>
     <p>User count: {{ training.trainings.count }}</p>
+    {% if training.trainings.count %}
+    {% for user_trn in training.trainings %}
+    <ul>
+        <li><a href="{{ path('admin.user.form', {'id': user_trn.user.id}) }}">{{ user_trn.user.name }}</a></li>
+    </ul>
+    {% endfor %}
+    {% endif %}
 {% endblock %}
