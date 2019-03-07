@@ -6,7 +6,7 @@ services:
       - '@twig'
       - '%kernel.environment%'
     tags:
-      - { name: kernel.event_listener, event: kernel.exception }
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
   domain.logger_handler:
     class:     Monolog\Handler\StreamHandler
@@ -19,7 +19,7 @@ services:
       - 'app'
     calls:
       - ['pushHandler', [ '@domain.logger_handler']]
-      -
+
   app.session:
     class: Application\Handlers\Session
     arguments:
