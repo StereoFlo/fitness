@@ -109,6 +109,14 @@ class TrainingUserModel extends AbstractModel
     }
 
     /**
+     * @return bool
+     */
+    public function removeByTraining(): bool
+    {
+        return $this->trainingUserRepo->removeByTrainingId($this->training->getId());
+    }
+
+    /**
      * @return TrainingUser
      */
     public function get(): TrainingUser

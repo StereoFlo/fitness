@@ -22,6 +22,17 @@ class TrainingRepository extends AbstractRepository
     }
 
     /**
+     * @param Training $training
+     *
+     * @return bool
+     */
+    public function remove(Training $training): bool
+    {
+        parent::removeOne($training);
+        return true;
+    }
+
+    /**
      * @param int $id
      *
      * @return Training|null|object

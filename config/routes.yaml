@@ -53,6 +53,13 @@ admin.training.show:
   requirements:
     id: '\d+'
 
+admin.training.remove:
+  path: /admin/training/{id}/remove
+  controller: Controller\Admin\TrainingController::remove
+  methods: [GET]
+  requirements:
+    id: '\d+'
+
 user.profile:
   path: /user/profile
   controller: Controller\User\ProfileController::form

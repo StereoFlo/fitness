@@ -39,13 +39,20 @@ class TrainingModel extends AbstractModel
     private $trainingRepo;
 
     /**
+     * @var TrainingUserModel
+     */
+    private $trainingUserModel;
+
+    /**
      * TrainingModel constructor.
      *
      * @param TrainingRepository $trainingRepo
+     * @param TrainingUserModel  $trainingUserModel
      */
-    public function __construct(TrainingRepository $trainingRepo)
+    public function __construct(TrainingRepository $trainingRepo, TrainingUserModel $trainingUserModel)
     {
         $this->trainingRepo = $trainingRepo;
+        $this->trainingUserModel = $trainingUserModel;
     }
 
     /**
@@ -126,6 +133,18 @@ class TrainingModel extends AbstractModel
             throw new ModelNotFoundException('Training is not exists');
         }
         return $training;
+    }
+
+    /**
+     * @return bool
+     * @throws ModelNotFoundException
+     */
+    public function remove(): bool
+    {
+        $training = $this->get();
+        $this->trainingUserModel->setTraining($training)->removeByTraining();
+        $this->trainingRepo->remove($training);
+        return true;
     }
 
     /**

@@ -20,7 +20,8 @@
                     <td>{{ item.description }}</td>
                     <td>
                         <a href="{{ path('admin.training.show', {'id': item.id}) }}">Show</a> |
-                        <a href="{{ path('admin.training.form', {'id': item.id}) }}">Edit</a>
+                        <a href="{{ path('admin.training.form', {'id': item.id}) }}">Edit</a> |
+                        <a href="{{ path('admin.training.remove', {'id': item.id}) }}">Delete</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -15,6 +15,7 @@ services:
     parent: abstract.model
     arguments:
       - '@training.repo'
+      - '@training.user.model'
     public: true
 
   training.user.model:

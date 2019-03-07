@@ -34,6 +34,36 @@ class TrainingUserRepository extends AbstractRepository
 
     /**
      * @param int $trainingId
+     *
+     * @return bool
+     */
+    public function removeByTrainingId(int $trainingId): bool
+    {
+        return $this->getQueryBuilder()
+            ->delete($this->getEntityName(), 'training')
+            ->where('training.trainingId = :trainingId')
+            ->setParameter('trainingId', $trainingId)
+            ->getQuery()
+            ->execute() > 0;
+    }
+
+    /**
+     * @param int $trainingId
+     *
+     * @return bool
+     */
+    public function removeByUserId(int $trainingId): bool
+    {
+        return $this->getQueryBuilder()
+            ->delete($this->getEntityName(), 'training')
+            ->where('training.userId = :userId')
+            ->setParameter('userId', $trainingId)
+            ->getQuery()
+            ->execute() > 0;
+    }
+
+    /**
+     * @param int $trainingId
      * @param int $userId
      *
      * @return TrainingUser|null|object

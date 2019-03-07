@@ -52,6 +52,18 @@ class TrainingController extends BaseController
     }
 
     /**
+     * @param int $id
+     *
+     * @return Response
+     * @throws ModelNotFoundException
+     */
+    public function remove(int $id): Response
+    {
+        $this->trainingModel->setId($id)->remove();
+        return $this->redirectToRoute('admin.training.list');
+    }
+
+    /**
      * @param int|null $id
      *
      * @return Response
