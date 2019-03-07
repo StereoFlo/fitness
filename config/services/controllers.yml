@@ -34,6 +34,7 @@ services:
     parent: Controller\BaseController
     arguments:
       - '@training.model'
+      - '@training.user.model'
     public: true
 
   Controller\User\ProfileController:

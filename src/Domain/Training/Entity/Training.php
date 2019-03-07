@@ -2,6 +2,7 @@
 
 namespace Domain\Training\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
 use Domain\Shared\Entity\AbstractEntity;
 use Domain\User\Entity\User;
@@ -126,13 +127,14 @@ class Training extends AbstractEntity
         if (empty($this->trainings)) {
             return false;
         }
-        $res = $this->trainings->filter(function ($train) use ($userId) {
+        /** @var ArrayCollection $res */
+        $res = $this->trainings->filter(function (TrainingUser $train) use ($userId) {
             return $train->getUser()->getId() === $userId;
         });
-        if (empty($res) || !isset($res[0])) {
+        if ($res->isEmpty()) {
             return null;
         }
 
-        return TrainingUser::getTypeName($res[0]->getSubscriptionType());
+        return TrainingUser::getTypeName($res->first()->getSubscriptionType());
     }
 }

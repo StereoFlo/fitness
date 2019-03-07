@@ -15,3 +15,8 @@ services:
     class: Domain\Training\Repository\TrainingRepository
     parent: abstract.repo
     public: true
+
+  training.user.repo:
+    class: Domain\Training\Repository\TrainingUserRepository
+    parent: abstract.repo
+    public: true

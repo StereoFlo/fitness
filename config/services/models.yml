@@ -16,3 +16,10 @@ services:
     arguments:
       - '@training.repo'
     public: true
+
+  training.user.model:
+    class: Domain\Training\Model\TrainingUserModel
+    parent: abstract.model
+    arguments:
+      - '@training.user.repo'
+    public: true

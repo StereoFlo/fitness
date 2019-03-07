@@ -9,4 +9,18 @@
     <p>Trainer Name: {{ training.trainerName }}</p>
     <p>Description: {{ training.description }}</p>
     <p>User count: {{ training.trainings.count }}</p>
+    {%  if training.hasUser(app.user.id) %}
+        Вы подписаны: {{ training.hasUser(app.user.id) }} (<a href="{{ path('user.training.unsubscribe', {'id': training.id}) }}">Отписаться</a>)
+    {% else %}
+        <div class="form-errors">
+            {{ form_errors(form) }}
+        </div>
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.type) }}
+            {{ form_widget(form.type, {'attr' : {'class': 'form-control'}}) }}
+        </div>
+        {{ form_widget(form.submit, {'attr' : {'class': 'btn btn-primary'}}) }}
+        {{ form_end(form) }}
+    {% endif %}
 {% endblock %}

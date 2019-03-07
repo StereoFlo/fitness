@@ -61,6 +61,13 @@ user.profile:
 user.training.show:
   path: /user/training/{id}
   controller: Controller\User\TrainingController::show
+  methods: [GET, POST]
+  requirements:
+    id: '\d+'
+
+user.training.unsubscribe:
+  path: /user/training/{id}/unsubscribe
+  controller: Controller\User\TrainingController::unsubscribe
   methods: [GET]
   requirements:
     id: '\d+'
