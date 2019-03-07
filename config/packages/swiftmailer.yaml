@@ -1,3 +1,8 @@
 swiftmailer:
-    url: '%env(MAILER_URL)%'
+    transport: smtp
+    command: '/usr/sbin/sendmail -bs'
+    username: null
+    password: null
+    host: localhost
+    port: 2525
     spool: { type: 'memory' }

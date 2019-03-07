@@ -79,6 +79,7 @@ class EmailSender extends AbstractSender
     public function send()
     {
         $this->message = (new Swift_Message($this->subject))
+            ->setFrom('send@fitness.ru')
             ->setTo($this->to)
             ->setBody(
                 $this->twig->render(
