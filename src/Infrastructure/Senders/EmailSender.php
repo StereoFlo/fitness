@@ -78,16 +78,18 @@ class EmailSender extends AbstractSender
      */
     public function send()
     {
-        $this->message = (new Swift_Message($this->subject))
-            ->setFrom('send@fitness.ru')
+        $templateName = $data = null;
+        if ($this->code) {
+            $templateName = 'email/register.html.twig';
+            $data = ['code' => $this->code];
+        }
+        if (!$this->code && $this->message) {
+            $templateName = 'email/email.html.twig';
+            $data = ['message' => $this->message];
+        }
+        $message = (new Swift_Message($this->subject))
             ->setTo($this->to)
-            ->setBody(
-                $this->twig->render(
-                    'email/register.html.twig',
-                    ['code' => $this->code]
-                ),
-                'text/html'
-            );
-        return $this->mailer->send($this->message);
+            ->setBody($this->twig->render($templateName, $data), 'text/html');
+        return $this->mailer->send($message);
     }
 }
