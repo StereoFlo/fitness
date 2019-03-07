@@ -250,9 +250,7 @@ class UserModel extends AbstractModel
         if (isset($this->sex)) {
             $user->setSex($this->sex);
         }
-        if (isset($this->activateCode)) {
-            $user->setActivateCode($this->activateCode);
-        }
+        $user->setActivateCode($this->activateCode);
         if (isset($this->isBlocked)) {
             $user->setIsBlocked($this->isBlocked);
         }
