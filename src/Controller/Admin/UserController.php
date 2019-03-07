@@ -78,7 +78,7 @@ class UserController extends BaseController
                 ->setSex($form->get('sex')->getData())
                 ->save();
             $this->producer->setContentType('application/json')
-                ->publish(json_encode(['to' => $user->getEmail(), 'code' => $user->getActivateCode()]));
+                ->publish(json_encode(['to' => $user->getEmail(), 'code' => $user->getActivateCode(), 'type' => 'register']));
             return $this->redirectToRoute('admin.user.list');
         }
         return $this->render('admin/user/edit.html.twig', ['form' => $form->createView()]);

@@ -7,7 +7,7 @@ old_sound_rabbit_mq:
         register:
             connection: default
             exchange_options:
-              name: 'emails'
+              name: 'register'
               type: direct
     consumers:
         register:
