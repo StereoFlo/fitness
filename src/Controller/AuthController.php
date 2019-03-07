@@ -106,6 +106,7 @@ class AuthController extends BaseController
      */
     public function login(): Response
     {
+        $redirect = $this->request->query->get('redirect', '/');
         if (!$this->getUser()) {
             $form = $this->createForm(LoginFormType::class, User::create())->handleRequest($this->request);
             $user = null;
@@ -127,12 +128,12 @@ class AuthController extends BaseController
                 $this->session->set('_security_main', serialize($token));
                 $event = new InteractiveLoginEvent($this->request, $token);
                 $this->eventDispatcher->dispatch('security.interactive_login', $event);
-                return $this->redirect('/');
+                return $this->redirect($redirect);
             }
             return $this->render('auth/login.html.twig', ['form' => $form->createView()]);
         }
 
-        return $this->redirect('/');
+        return $this->redirect($redirect);
     }
 
     /**

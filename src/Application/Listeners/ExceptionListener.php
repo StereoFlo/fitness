@@ -73,7 +73,8 @@ class ExceptionListener
         switch (true) {
             case ($e instanceOf HttpException):
                 $this->logger->error($e->getMessage(), $e->getTrace());
-                RedirectResponse::create('/login');
+                $path = $this->event->getRequest()->getPathInfo();
+                $this->event->setResponse(RedirectResponse::create('/login?redirect=' . $path));
                 break;
             case ($e instanceOf ModelNotFoundException):
                 $this->logger->error($e->getMessage(), $e->getTrace());
