@@ -8,6 +8,8 @@ services:
     parent: abstract.model
     arguments:
       - '@user.repo'
+      - '@filesystem'
+      - '%uploads_dir%'
     public: true
 
   training.model:

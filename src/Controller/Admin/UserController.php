@@ -77,9 +77,10 @@ class UserController extends BaseController
                 ->setBirthDate($form->get('birthDate')->getData())
                 ->setRole($form->get('role')->getData())
                 ->setName($form->get('name')->getData())
-                ->setPassword($form->get('password')->getData())
                 ->setSex($form->get('sex')->getData())
                 ->setActivateCode(md5(mt_rand(0, 9999)))
+                ->setPhoto($form->get('photo')->getData())
+                ->setIsBlocked($form->get('isBlocked')->getData())
                 ->save();
             $this->producer->setContentType('application/json')
                 ->publish(json_encode(['to' => $user->getEmail(), 'code' => $user->getActivateCode(), 'type' => 'register']));

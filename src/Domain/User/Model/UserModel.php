@@ -9,6 +9,9 @@ use Domain\User\Entity\User;
 use Domain\User\Repository\UserRepository;
 use Exception;
 use function md5;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use function time;
 
 /**
  * Class UserModel
@@ -58,7 +61,7 @@ class UserModel extends AbstractModel
     private $password;
 
     /**
-     * @var string|null
+     * @var UploadedFile|null
      */
     private $photo;
 
@@ -83,12 +86,27 @@ class UserModel extends AbstractModel
     private $userRepo;
 
     /**
-     * UserModel constructor.
-     * @param UserRepository $userRepo
+     * @var string
      */
-    public function __construct(UserRepository $userRepo)
+    private $uploadDir;
+
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    /**
+     * UserModel constructor.
+     *
+     * @param UserRepository $userRepo
+     * @param Filesystem     $filesystem
+     * @param string         $uploadDir
+     */
+    public function __construct(UserRepository $userRepo, Filesystem $filesystem, string $uploadDir)
     {
         $this->userRepo = $userRepo;
+        $this->uploadDir = $uploadDir;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -172,10 +190,11 @@ class UserModel extends AbstractModel
     }
 
     /**
-     * @param string|null $photo
+     * @param UploadedFile|null $photo
+     *
      * @return UserModel
      */
-    public function setPhoto(?string $photo): UserModel
+    public function setPhoto(?UploadedFile $photo): UserModel
     {
         $this->photo = $photo;
         return $this;
@@ -229,35 +248,17 @@ class UserModel extends AbstractModel
                 ->setActivateCode(md5($this->email . time() . date('Y')));
         }
         $user->setUpdatedAt();
-        if (isset($this->role)) {
-            $user->setRole($this->role);
-        }
-        if (isset($this->password)) {
-            $user->setPassword($this->password);
-        }
-        if (isset($this->email)) {
-            $user->setEmail($this->email);
-        }
-        if (isset($this->birthDate)) {
-            $user->setBirthDate($this->birthDate);
-        }
-        if (isset($this->name)) {
-            $user->setName($this->name);
-        }
-        if (isset($this->phone)) {
-            $user->setPhone($this->phone);
-        }
-        if (isset($this->sex)) {
-            $user->setSex($this->sex);
-        }
+        $this->fillRole($user);
+        $this->fillPassword($user);
+        $this->fillEmail($user);
+        $this->fillBirthDate($user);
+        $this->fillName($user);
+        $this->fillPhone($user);
+        $this->fillSex($user);
         $user->setActivateCode($this->activateCode);
-        if (isset($this->isBlocked)) {
-            $user->setIsBlocked($this->isBlocked);
-        }
-        if (isset($this->isActivated)) {
-            $user->setIsActivated($this->isActivated);
-        }
-            //->setPhoto() todo
+        $this->fillIsBlocked($user);
+        $this->fillIsActivated($user);
+        $this->fillPhoto($user);
 
         return $this->userRepo->save($user);
     }
@@ -342,5 +343,120 @@ class UserModel extends AbstractModel
     public function getList(int $limit, int $offset): array
     {
         return $this->userRepo->getUserList($limit, $offset);
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillRole(User $user): void
+    {
+        if (isset($this->role)) {
+            $user->setRole($this->role);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillPassword(User $user): void
+    {
+        if (isset($this->password)) {
+            $user->setPassword($this->password);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillEmail(User $user): void
+    {
+        if (isset($this->email)) {
+            if (!$this->isNew && $user->getEmail() !== $this->email) {
+                $user->setEmail($this->email);
+            }
+            if ($this->isNew) {
+                $user->setPhone($this->phone);
+            }
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillBirthDate(User $user): void
+    {
+        if (isset($this->birthDate)) {
+            $user->setBirthDate($this->birthDate);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillName(User $user): void
+    {
+        if (isset($this->name)) {
+            $user->setName($this->name);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillPhone(User $user): void
+    {
+        if (isset($this->phone)) {
+            if (!$this->isNew && $user->getPhone() !== $this->phone) {
+                $user->setPhone($this->phone);
+            }
+            if ($this->isNew) {
+                $user->setPhone($this->phone);
+            }
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillSex(User $user): void
+    {
+        if (isset($this->sex)) {
+            $user->setSex($this->sex);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillIsBlocked(User $user): void
+    {
+        if (isset($this->isBlocked)) {
+            $user->setIsBlocked($this->isBlocked);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillIsActivated(User $user): void
+    {
+        if (isset($this->isActivated)) {
+            $user->setIsActivated($this->isActivated);
+        }
+    }
+
+    /**
+     * @param User $user
+     */
+    private function fillPhoto(User $user): void
+    {
+        if (isset($this->photo)) {
+            if ($user->getPhoto() && $this->filesystem->exists($this->uploadDir . '/' . $user->getPhoto())) {
+                $this->filesystem->remove($this->uploadDir . '/' . $user->getPhoto());
+            }
+            $fileName = md5($this->photo->getClientOriginalName() . time()) . '.' . $this->photo->guessExtension();
+            $user->setPhoto($fileName);
+            $this->photo->move($this->uploadDir, $fileName);
+        }
     }
 }

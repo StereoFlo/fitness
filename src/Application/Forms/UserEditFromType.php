@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,6 +37,7 @@ class UserEditFromType extends AbstractType
             ->add('role', ChoiceType::class, ['choices' => User::ROLE_MAP])
             ->add('isBlocked', CheckboxType::class, ['required' => false])
             ->add('isActivated', CheckboxType::class, ['required' => false])
+            ->add('photo', FileType::class, ['mapped' => false])
             ->add('submit', SubmitType::class);
     }
     /**

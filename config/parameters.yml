@@ -10,3 +10,4 @@ parameters:
   database_name: fitness
   database_user: fitness
   database_password: fitness
+  uploads_dir: '%kernel.project_dir%/public/uploads'
