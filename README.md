@@ -1,3 +1,9 @@
+#### Настройки БД БД
+
+```bash
+vi config/parameters.yml
+```
+
 #### Инициализация БД
 
 ```bash
