@@ -11,16 +11,24 @@ services:
     class: Infrastructure\Consumers\SendConsumer
     arguments:
       - '@email.sender'
+      - '@sms.sender'
+      - '@training.user.repo'
     public: true
 
   abstract.sender:
     class: Infrastructure\Senders\AbstractSender
     public: true
     abstract: true
+
   email.sender:
     class: Infrastructure\Senders\EmailSender
     arguments:
       - '@swiftmailer.mailer.default'
       - '@twig'
+    public: true
+    parent: abstract.sender
+
+  sms.sender:
+    class: Infrastructure\Senders\SmsSender
     public: true
     parent: abstract.sender

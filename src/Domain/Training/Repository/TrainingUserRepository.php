@@ -32,7 +32,16 @@ class TrainingUserRepository extends AbstractRepository
         return true;
     }
 
-
+    /**
+     * @param int $trainingId
+     * @param int $type
+     *
+     * @return TrainingUser[]|null
+     */
+    public function getUserForSend(int $trainingId, int $type): ?array
+    {
+        return $this->getRepository()->findBy(['trainingId' => $trainingId, 'subscriptionType' => $type]);
+    }
 
     /**
      * @param int $trainingId
