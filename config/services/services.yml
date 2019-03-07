@@ -1,4 +1,25 @@
 services:
+  app.exception_listener:
+    class: Application\Listeners\ExceptionListener
+    arguments:
+      - '@domain.logger'
+      - '@twig'
+      - '%kernel.environment%'
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
+
+  domain.logger_handler:
+    class:     Monolog\Handler\StreamHandler
+    arguments:
+      - '%kernel.logs_dir%/%kernel.environment%.log'
+
+  domain.logger:
+    class:     Symfony\Bridge\Monolog\Logger
+    arguments:
+      - 'app'
+    calls:
+      - ['pushHandler', [ '@domain.logger_handler']]
+      -
   app.session:
     class: Application\Handlers\Session
     arguments:
