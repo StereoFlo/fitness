@@ -41,6 +41,10 @@
         {{ form_widget(form.isActivated, {'attr' : {'class': 'form-check-input'}}) }}
     </div>
     <div class="form-group">
+        {{ form_label(form.photo) }}
+        {{ form_widget(form.photo, {'attr' : {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
         {{ form_label(form.password) }}
         {{ form_widget(form.password, {'attr' : {'class': 'form-control'}}) }}
     </div>

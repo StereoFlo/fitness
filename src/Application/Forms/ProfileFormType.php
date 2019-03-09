@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  * Class UserEditFromType
  * @package Application\Forms
  */
-class ProfileFormType extends UserEditFromType
+class ProfileFormType extends AbstractUserFormType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -24,6 +24,7 @@ class ProfileFormType extends UserEditFromType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
         $builder
             ->add('name', TextType::class, ['disabled' => true])
             ->add('birthDate', DateType::class, ['disabled' => true])
@@ -36,7 +37,6 @@ class ProfileFormType extends UserEditFromType
             ->add('role', ChoiceType::class, ['choices' => User::ROLE_MAP, 'disabled' => true])
             ->add('isBlocked', CheckboxType::class, ['disabled' => true])
             ->add('isActivated', CheckboxType::class, ['disabled' => true])
-            ->add('password', PasswordType::class)
-            ->add('submit', SubmitType::class);
+            ->add('password', PasswordType::class);
     }
 }
