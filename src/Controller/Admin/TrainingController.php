@@ -60,15 +60,13 @@ class TrainingController extends BaseController
         $training = $this->trainingModel->setId($id)->get();
         $emailForm = $this->createForm(SendEmailFormType::class)->handleRequest($this->request);
         $smsForm = $this->createForm(SendSmsFormType::class)->handleRequest($this->request);
-        if ($emailForm->isSubmitted() && $emailForm->isValid()) {
+        if ($emailForm->isSubmitted() && $emailForm->isValid() || $smsForm->isSubmitted() && $smsForm->isValid()) {
             $this->producer
                 ->setContentType('application/json')
-                ->publish(json_encode(['to' => $training->getId(), 'message' =>$emailForm->get('message')->getData(), 'type' => TrainingUser::TYPE_EMAIL]));
-        }
-        if ($smsForm->isSubmitted() && $smsForm->isValid()) {
-            $this->producer
-                ->setContentType('application/json')
-                ->publish(json_encode(['to' => $training->getId(), 'message' =>$emailForm->get('message')->getData(), 'type' => TrainingUser::TYPE_SMS]));
+                ->publish(json_encode([
+                    'to'      => $training->getId(),
+                    'message' => $emailForm->get('message')->getData(),
+                    'type'    => $emailForm->get('type')->getData()]));
         }
         return $this->render('admin/training/show.html.twig', ['training' => $training, 'emailForm' => $emailForm->createView(), 'smsForm' => $smsForm->createView()]);
     }
