@@ -375,7 +375,7 @@ class UserModel extends AbstractModel
                 $user->setEmail($this->email);
             }
             if ($this->isNew) {
-                $user->setPhone($this->phone);
+                $user->setEmail($this->email);
             }
         }
     }
