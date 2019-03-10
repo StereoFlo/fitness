@@ -61,6 +61,12 @@
     "symfony/polyfill-php56": "*"
   },
   "scripts": {
+    "copy-params": {
+      "copy": "cp ./config/parameters.yml.dist ./config/parameters.yml"
+    },
+    "copy-env": {
+      "copy": "cp .env.dist .env"
+    },
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "assets:install %PUBLIC_DIR%": "symfony-cmd"

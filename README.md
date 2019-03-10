@@ -1,4 +1,10 @@
-#### Настройки БД
+#### Установка зависимостей
+
+```bash
+php composer.phar install
+```
+
+#### Настройки БД && RabbitMQ
 
 ```bash
 vi config/parameters.yml
