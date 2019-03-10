@@ -1,13 +1,13 @@
 <?php
 
-namespace Domain\Shared\Entity;
+namespace Domain\Common\Entity;
 
 use DateTime;
 use Exception;
 
 /**
  * Class AbstractEntity
- * @package Domain\Shared\Entity
+ * @package Domain\Common\Entity
  */
 abstract class AbstractEntity
 {

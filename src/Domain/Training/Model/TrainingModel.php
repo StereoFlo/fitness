@@ -3,7 +3,7 @@
 namespace Domain\Training\Model;
 
 use Application\Exceptions\ModelNotFoundException;
-use Domain\Shared\Model\AbstractModel;
+use Domain\Common\Model\AbstractModel;
 use Domain\Training\Entity\Training;
 use Domain\Training\Repository\TrainingRepository;
 

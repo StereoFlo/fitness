@@ -2,7 +2,7 @@
 
 namespace Domain\User\Repository;
 
-use Domain\Shared\Repository\AbstractRepository;
+use Domain\Common\Repository\AbstractRepository;
 use Domain\User\Entity\User;
 
 /**

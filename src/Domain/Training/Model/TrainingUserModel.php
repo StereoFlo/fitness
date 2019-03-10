@@ -2,7 +2,7 @@
 
 namespace Domain\Training\Model;
 
-use Domain\Shared\Model\AbstractModel;
+use Domain\Common\Model\AbstractModel;
 use Domain\Training\Entity\Training;
 use Domain\Training\Entity\TrainingUser;
 use Domain\Training\Repository\TrainingUserRepository;

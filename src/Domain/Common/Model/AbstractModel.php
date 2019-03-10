@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Domain\Shared\Model;
+namespace Domain\Common\Model;
 
 /**
  * Class AbstractModel
- * @package Domain\Shared\Model
+ * @package Domain\Common\Model
  */
 abstract class AbstractModel
 {

@@ -2,7 +2,7 @@
 
 namespace Domain\Training\Entity;
 
-use Domain\Shared\Entity\AbstractEntity;
+use Domain\Common\Entity\AbstractEntity;
 use Domain\User\Entity\User;
 
 /**

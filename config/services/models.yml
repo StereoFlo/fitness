@@ -1,6 +1,6 @@
 services:
   abstract.model:
-    class: Domain\Shared\Model\AbstractModel
+    class: Domain\Common\Model\AbstractModel
     public: true
 
   user.model:

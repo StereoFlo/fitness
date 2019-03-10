@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Shared\Repository;
+namespace Domain\Common\Repository;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,7 +9,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Class AbstractRepository
- * @package Domain\Shared
+ * @package Domain\Common
  */
 abstract class AbstractRepository
 {

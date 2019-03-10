@@ -1,6 +1,6 @@
 services:
   abstract.repo:
-    class: Domain\Shared\Repository\AbstractRepository
+    class: Domain\Common\Repository\AbstractRepository
     abstract: true
     arguments:
       - '@doctrine.orm.default_entity_manager'

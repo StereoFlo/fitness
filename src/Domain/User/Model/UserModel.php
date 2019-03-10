@@ -4,7 +4,7 @@ namespace Domain\User\Model;
 
 use Application\Exceptions\ModelNotFoundException;
 use DateTime;
-use Domain\Shared\Model\AbstractModel;
+use Domain\Common\Model\AbstractModel;
 use Domain\User\Entity\User;
 use Domain\User\Repository\UserRepository;
 use Exception;

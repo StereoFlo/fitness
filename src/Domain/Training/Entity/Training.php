@@ -4,7 +4,7 @@ namespace Domain\Training\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
-use Domain\Shared\Entity\AbstractEntity;
+use Domain\Common\Entity\AbstractEntity;
 use Domain\User\Entity\User;
 
 /**
