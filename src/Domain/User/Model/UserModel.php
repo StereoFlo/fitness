@@ -96,6 +96,11 @@ class UserModel extends AbstractModel
     private $filesystem;
 
     /**
+     * @var User|null
+     */
+    private $currentUser;
+
+    /**
      * UserModel constructor.
      *
      * @param UserRepository $userRepo
@@ -240,27 +245,27 @@ class UserModel extends AbstractModel
      */
     public function save(): User
     {
-        $user = $this->get();
+        $this->currentUser = $this->get();
         if ($this->isNew) {
-            $user->setCreatedAt()
+            $this->currentUser->setCreatedAt()
                 ->setIsActivated(false)
                 ->setIsBlocked(false)
                 ->setActivateCode(md5($this->email . time() . date('Y')));
         }
-        $user->setUpdatedAt();
-        $this->fillRole($user);
-        $this->fillPassword($user);
-        $this->fillEmail($user);
-        $this->fillBirthDate($user);
-        $this->fillName($user);
-        $this->fillPhone($user);
-        $this->fillSex($user);
-        $user->setActivateCode($this->activateCode);
-        $this->fillIsBlocked($user);
-        $this->fillIsActivated($user);
-        $this->fillPhoto($user);
+        $this->currentUser->setUpdatedAt();
+        $this->currentUser->setActivateCode($this->activateCode);
+        $this->fillRole();
+        $this->fillPassword();
+        $this->fillEmail();
+        $this->fillBirthDate();
+        $this->fillName();
+        $this->fillPhone();
+        $this->fillSex();
+        $this->fillIsBlocked();
+        $this->fillIsActivated();
+        $this->fillPhoto();
 
-        return $this->userRepo->save($user);
+        return $this->userRepo->save($this->currentUser);
     }
 
     /**
@@ -329,7 +334,7 @@ class UserModel extends AbstractModel
             return $user;
         }
         if (empty($user)) {
-            throw new ModelNotFoundException('User does not found by active code');
+            throw new ModelNotFoundException('User does not found by activation code');
         }
         return $user;
     }
@@ -346,117 +351,127 @@ class UserModel extends AbstractModel
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillRole(User $user): void
+    private function fillRole(): self
     {
         if (isset($this->role)) {
-            $user->setRole($this->role);
+            $this->currentUser->setRole($this->role);
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillPassword(User $user): void
+    private function fillPassword(): self
     {
         if (isset($this->password)) {
-            $user->setPassword($this->password);
+            $this->currentUser->setPassword($this->password);
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillEmail(User $user): void
+    private function fillEmail(): self
     {
         if (isset($this->email)) {
-            if (!$this->isNew && $user->getEmail() !== $this->email) {
-                $user->setEmail($this->email);
+            if (!$this->isNew && $this->currentUser->getEmail() !== $this->email) {
+                $this->currentUser->setEmail($this->email);
             }
             if ($this->isNew) {
-                $user->setEmail($this->email);
+                $this->currentUser->setEmail($this->email);
             }
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillBirthDate(User $user): void
+    private function fillBirthDate(): self
     {
         if (isset($this->birthDate)) {
-            $user->setBirthDate($this->birthDate);
+            $this->currentUser->setBirthDate($this->birthDate);
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillName(User $user): void
+    private function fillName(): self
     {
         if (isset($this->name)) {
-            $user->setName($this->name);
+            $this->currentUser->setName($this->name);
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillPhone(User $user): void
+    private function fillPhone(): self
     {
         if (isset($this->phone)) {
-            if (!$this->isNew && $user->getPhone() !== $this->phone) {
-                $user->setPhone($this->phone);
+            if (!$this->isNew && $this->currentUser->getPhone() !== $this->phone) {
+                $this->currentUser->setPhone($this->phone);
             }
             if ($this->isNew) {
-                $user->setPhone($this->phone);
+                $this->currentUser->setPhone($this->phone);
             }
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillSex(User $user): void
+    private function fillSex(): self
     {
         if (isset($this->sex)) {
-            $user->setSex($this->sex);
+            $this->currentUser->setSex($this->sex);
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillIsBlocked(User $user): void
+    private function fillIsBlocked(): self
     {
         if (isset($this->isBlocked)) {
-            $user->setIsBlocked($this->isBlocked);
+            $this->currentUser->setIsBlocked($this->isBlocked);
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillIsActivated(User $user): void
+    private function fillIsActivated(): self
     {
         if (isset($this->isActivated)) {
-            $user->setIsActivated($this->isActivated);
+            $this->currentUser->setIsActivated($this->isActivated);
         }
+        return $this;
     }
 
     /**
-     * @param User $user
+     * @return UserModel
      */
-    private function fillPhoto(User $user): void
+    private function fillPhoto(): self
     {
         if (isset($this->photo)) {
-            if ($user->getPhoto() && $this->filesystem->exists($this->uploadDir . '/' . $user->getPhoto())) {
-                $this->filesystem->remove($this->uploadDir . '/' . $user->getPhoto());
+            if ($this->currentUser->getPhoto() && $this->filesystem->exists($this->uploadDir . '/' . $this->currentUser->getPhoto())) {
+                $this->filesystem->remove($this->uploadDir . '/' . $this->currentUser->getPhoto());
             }
             $fileName = md5($this->photo->getClientOriginalName() . time()) . '.' . $this->photo->guessExtension();
-            $user->setPhoto($fileName);
+            $this->currentUser->setPhoto($fileName);
             $this->photo->move($this->uploadDir, $fileName);
         }
+        return $this;
     }
 }
