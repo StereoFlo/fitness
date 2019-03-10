@@ -11,7 +11,7 @@ parameters:
   database_user: fitness
   database_password: fitness
   uploads_dir: '%kernel.project_dir%/public/uploads'
-  rabbitmq_host: 'spider.rmq.cloudamqp.com'
-  rabbitmq_user: 'glmhjqef'
-  rabbitmq_password: 'oUBz_pKwt80il7TdeQ-Q0m7DFZpQedoX'
-  rabbitmq_vhost: 'glmhjqef'
+  rabbitmq_host: ''
+  rabbitmq_user: ''
+  rabbitmq_password: ''
+  rabbitmq_vhost: ''
