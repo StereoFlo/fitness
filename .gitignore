@@ -18,3 +18,4 @@
 /.idea
 composer.phar
 .env
+config/parameters.yml
