@@ -1,0 +1,18 @@
+user.training.show:
+  path: /training/{id}
+  controller: Controller\User\TrainingController::show
+  methods: [GET, POST]
+  requirements:
+    id: '\d+'
+
+user.training.unsubscribe:
+  path: /training/{id}/unsubscribe
+  controller: Controller\User\TrainingController::unsubscribe
+  methods: [GET]
+  requirements:
+    id: '\d+'
+
+user.training.list:
+  path: /training
+  controller: Controller\User\TrainingController::getList
+  methods: [GET]

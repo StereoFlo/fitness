@@ -22,64 +22,13 @@ register:
   controller: Controller\AuthController::register
   methods: [GET, POST]
 
-admin.user.list:
-  path: /admin/user
-  controller: Controller\Admin\UserController::getList
-  methods: [GET]
+admin.routes:
+  resource: 'routes/admin'
+  type: directory
+  prefix: '/admin'
 
-admin.user.form:
-  path: /admin/user/form/{id?}
-  controller: Controller\Admin\UserController::form
-  methods: [GET, POST]
-  requirements:
-    id: '\d+'
+user.routes:
+  resource: 'routes/user'
+  type: directory
+  prefix: '/user'
 
-admin.training.list:
-  path: /admin/training
-  controller: Controller\Admin\TrainingController::getList
-  methods: [GET]
-
-admin.training.form:
-  path: /admin/training/form/{id?}
-  controller: Controller\Admin\TrainingController::form
-  methods: [GET, POST]
-  requirements:
-    id: '\d+'
-
-admin.training.show:
-  path: /admin/training/{id}
-  controller: Controller\Admin\TrainingController::show
-  methods: [GET, POST]
-  requirements:
-    id: '\d+'
-
-admin.training.remove:
-  path: /admin/training/{id}/remove
-  controller: Controller\Admin\TrainingController::remove
-  methods: [GET]
-  requirements:
-    id: '\d+'
-
-user.profile:
-  path: /user/profile
-  controller: Controller\User\ProfileController::form
-  methods: [GET, POST]
-
-user.training.show:
-  path: /user/training/{id}
-  controller: Controller\User\TrainingController::show
-  methods: [GET, POST]
-  requirements:
-    id: '\d+'
-
-user.training.unsubscribe:
-  path: /user/training/{id}/unsubscribe
-  controller: Controller\User\TrainingController::unsubscribe
-  methods: [GET]
-  requirements:
-    id: '\d+'
-
-user.training.list:
-  path: /user/training
-  controller: Controller\User\TrainingController::getList
-  methods: [GET]

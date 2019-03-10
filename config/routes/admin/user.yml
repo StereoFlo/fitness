@@ -1,0 +1,11 @@
+admin.user.list:
+  path: /user
+  controller: Controller\Admin\UserController::getList
+  methods: [GET]
+
+admin.user.form:
+  path: /user/form/{id?}
+  controller: Controller\Admin\UserController::form
+  methods: [GET, POST]
+  requirements:
+    id: '\d+'

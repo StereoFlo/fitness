@@ -1,0 +1,25 @@
+admin.training.list:
+  path: /training
+  controller: Controller\Admin\TrainingController::getList
+  methods: [GET]
+
+admin.training.form:
+  path: /training/form/{id?}
+  controller: Controller\Admin\TrainingController::form
+  methods: [GET, POST]
+  requirements:
+    id: '\d+'
+
+admin.training.show:
+  path: /training/{id}
+  controller: Controller\Admin\TrainingController::show
+  methods: [GET, POST]
+  requirements:
+    id: '\d+'
+
+admin.training.remove:
+  path: /training/{id}/remove
+  controller: Controller\Admin\TrainingController::remove
+  methods: [GET]
+  requirements:
+    id: '\d+'
