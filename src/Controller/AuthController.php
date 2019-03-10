@@ -167,7 +167,7 @@ class AuthController extends BaseController
                 ->setActivateCode(null)
                 ->setIsActivated(true)
                 ->save();
-            return RedirectResponse::create('/');
+            return $this->redirect('/');
         }
         return $this->render('auth/confirmation.html.twig', ['form' => $form->createView()]);
     }
