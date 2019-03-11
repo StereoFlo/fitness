@@ -139,7 +139,11 @@ class TrainingUser extends AbstractEntity
         return $this;
     }
 
-    public static function getTypeName(int $type)
+    /**
+     * @param int $type
+     * @return string
+     */
+    public static function getTypeName(int $type): string
     {
         return isset(self::TYPE_MAP[$type]) ? self::TYPE_MAP[$type] : 'Unknown';
     }
