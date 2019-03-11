@@ -8,8 +8,8 @@ use Application\Forms\SendSmsFormType;
 use Application\Forms\TrainingFormType;
 use Controller\BaseController;
 use Domain\Training\Entity\Training;
-use Domain\Training\Entity\TrainingUser;
 use Domain\Training\Model\TrainingModel;
+use Infrastructure\Helpers\PublishHelper;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -63,10 +63,10 @@ class TrainingController extends BaseController
         if ($emailForm->isSubmitted() && $emailForm->isValid() || $smsForm->isSubmitted() && $smsForm->isValid()) {
             $this->producer
                 ->setContentType('application/json')
-                ->publish(json_encode([
-                    'to'      => $training->getId(),
-                    'message' => $emailForm->get('message')->getData(),
-                    'type'    => $emailForm->get('type')->getData()]));
+                ->publish(PublishHelper::create()
+                    ->setTo($training->getId())
+                    ->setMessage($emailForm->get('message')->getData())
+                    ->setType($emailForm->get('type')->getData()));
         }
         return $this->render('admin/training/show.html.twig', ['training' => $training, 'emailForm' => $emailForm->createView(), 'smsForm' => $smsForm->createView()]);
     }

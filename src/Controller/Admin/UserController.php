@@ -7,7 +7,7 @@ use Application\Forms\UserEditFromType;
 use Controller\BaseController;
 use Domain\User\Entity\User;
 use Domain\User\Model\UserModel;
-use function json_encode;
+use Infrastructure\Helpers\PublishHelper;
 use function md5;
 use function mt_rand;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
@@ -84,7 +84,10 @@ class UserController extends BaseController
                 ->setIsBlocked($form->get('isBlocked')->getData())
                 ->save();
             $this->producer->setContentType('application/json')
-                ->publish(json_encode(['to' => $user->getEmail(), 'code' => $user->getActivateCode(), 'type' => 'register']));
+                ->publish(PublishHelper::create()
+                        ->setTo($user->getEmail())
+                        ->setCode($user->getActivateCode())
+                        ->setType('register'));
             return $this->redirectToRoute('admin.user.list');
         }
         return $this->render('admin/user/edit.html.twig', ['form' => $form->createView()]);
